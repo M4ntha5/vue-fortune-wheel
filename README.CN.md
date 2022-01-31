@@ -1,26 +1,24 @@
 
-# Vue-Fortune-Wheel
+# Improved-Vue-Fortune-Wheel
 
-组件名称: Wheel of Fortune, 命运之轮, 幸运转盘
-
-应用场景: 抽奖
+Wheel of Fortune, 
 
 ## Install
 ```
-yarn add vue-fortune-wheel
+yarn add improved-vue-fortune-wheel
 ```
 or
 ```
-npm install vue-fortune-wheel
+npm install improved-vue-fortune-wheel
 ```
 ## Language
 
-[English (By Google Translate)](./README.md)| [中文](./README.CN.md)
+[English (By Google Translate)](./README.md)
 
 ## Demo
 
 ### online
-https://xiaolin1995.github.io/vue-fortune-wheel/demo/
+https://github.com/M4ntha5/vue-fortune-wheel
 
 ## Usage
 
