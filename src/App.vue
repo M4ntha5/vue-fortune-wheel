@@ -1,10 +1,10 @@
 <template>
   <div id="app" class="container">
     <div class="row">
-      <div class="col-md-6">
+      <div class="">
         <h2> Canvas </h2>
 
-        <FortuneWheel
+        <fortune-wheel
           style="width: 500px; max-width: 100%;"
           :verify="canvasVerify"
           :canvas="canvasOptions"
@@ -13,40 +13,13 @@
           @rotateEnd="onRotateEnd"
         />
       </div>
-      <div class="col-md-6">
-        <h2> Image </h2>
-
-        <FortuneWheel
-          style="width: 500px; max-width: 100%;"
-          type="image"
-          :useWeight="true"
-          :verify="canvasVerify"
-          :prizeId="prizeId"
-          :angleBase="-2"
-          :prizes="prizesImage"
-          @rotateStart="onImageRotateStart"
-          @rotateEnd="onRotateEnd"
-        >
-          <img slot="wheel" src="@/assets/wheel.png" style="transform: rotateZ(60deg)" />
-          <img slot="button" src="@/assets/button.png" style="width: 180px"/>
-        </FortuneWheel>
-
-        <div class="btn-list">
-          <div class="btn" v-for="(item, idx) in prizesCanvas" :key="idx" :style="{ background: item.bgColor }" @click="onChangePrize(item.id)"></div>
-        </div>
-        <div class="wheel-result">
-          当前 100% <span :style="{ background: prizeRes.bgColor }"></span>
-          <br/> 点击按钮，可在旋转中强行改变结果,
-          <br/> 最好在旋转减速前, 大约一半的时间之前, 最好一次旋转只改变一次
-        </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import FortuneWheel from './components/FortuneWheel/index.vue'
+import FortuneWheel from '@/components/fortuneWheel/index.vue'
 
 interface PrizeConfig {
   /* eslint-disable */
@@ -147,7 +120,8 @@ export default Vue.extend({
       console.log('onImageRotateStart')
     },
     onRotateEnd (prize: PrizeConfig) {
-      alert(prize.value)
+      //alert(prize.value)
+      console.log(prize.value)
     },
     onChangePrize (id: number) {
       this.prizeId = id
