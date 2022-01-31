@@ -6,8 +6,7 @@
   "bugs": {
     "email": "mantozerix@gmail.com"
   },
-  "keywords": [
-  ],
+  "keywords": [],
   "description": "Component \"Wheel of Fortune\" for Vue",
   "main": "lib/vue-fortune-wheel.umd.min.js",
   "repository": {

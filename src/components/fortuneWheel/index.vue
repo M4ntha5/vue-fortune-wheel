@@ -330,12 +330,14 @@ export default Vue.extend({
       const angle = 360 / this.prizes.length
       const num = this.prizes.findIndex(row => row.id === prizeId)
       this.prizeRes = this.prizes[num]
-      const randomAngle = Math.floor(Math.random() * (angle * (num + 1) - angle * (num + 1) - angle + 1) + angle * (num + 1) - angle)
-      console.log('angle', randomAngle)
+      console.log('prize num', num)
+      const numId = num
+      const randomAngle = this.getRandomNumber(angle * numId + 1, angle * numId - 1)
+      console.log('angle from to', angle * numId, angle * numId, randomAngle)
       console.log('degreee', this.prizes[num].name)
-      return 360 - randomAngle // (randomAngle * num + angle / 2)
+      return (randomAngle * num + randomAngle) // 360 - randomAngle // (randomAngle * num + angle / 2)
     },
-    getRandomNumber(min, max){
+    getRandomNumber (min: number, max: number): number {
       return Math.floor(Math.random() * (max - min + 1) + min)
     }
   }
