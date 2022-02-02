@@ -71,9 +71,9 @@ interface CanvasConfig {
 }
 
 const canvasDefaultConfig = {
-  radius: 250, // 圆的半径
+  radius: 300, // 圆的半径
   textRadius: 190, // 奖品位置距离圆心的距离
-  textLength: 6, // 奖品文本 1 行几个字符, 最多 2 行
+  textLength: 20, // 奖品文本 1 行几个字符, 最多 2 行
   textDirection: 'horizontal', // 奖品文本方向
   lineHeight: 20, // 文本行高
   borderWidth: 0, // 圆的外边框
@@ -331,11 +331,17 @@ export default Vue.extend({
       const num = this.prizes.findIndex(row => row.id === prizeId)
       this.prizeRes = this.prizes[num]
       console.log('prize num', num)
-      const numId = num
-      const randomAngle = this.getRandomNumber(angle * numId + 1, angle * numId - 1)
-      console.log('angle from to', angle * numId, angle * numId, randomAngle)
-      console.log('degreee', this.prizes[num].name)
-      return (randomAngle * num + randomAngle) // 360 - randomAngle // (randomAngle * num + angle / 2)
+      const startAngle = 1 + angle * num
+      const endAngle = startAngle + angle - 1
+      console.log('min', startAngle, 'max', endAngle)
+      const randomAngle = this.getRandomNumber(startAngle, endAngle)
+      console.log('angle', randomAngle)
+      console.log(this.prizes[num].name)
+      // const numId = num
+      // const randomAngle = this.getRandomNumber(startAngle, angle * numId - 1)
+      // console.log('angle from to', angle * numId, angle * numId, randomAngle)
+      // console.log('degreee', this.prizes[num].name)
+      return 360 - randomAngle // (randomAngle * num + randomAngle) // 360 - randomAngle // (randomAngle * num + angle / 2)
     },
     getRandomNumber (min: number, max: number): number {
       return Math.floor(Math.random() * (max - min + 1) + min)

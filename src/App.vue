@@ -47,32 +47,42 @@ export default Vue.extend({
         btnWidth: 140,
         borderColor: '#584b43',
         borderWidth: 6,
-        lineHeight: 30
+        lineHeight: 50,
+        textRadius: 200,
+        radius: 300
       },
       prizesCanvas: [
         {
           id: 1,
-          name: 'Blue', // 奖品名
-          value: 'Blue\'s value', // 奖品值
+          name: 'Storas1', // 奖品名
+          value: 'Blue\'s value1', // 奖品值
           bgColor: '#45ace9', // 背景色
           color: '#ffffff', // 字体色
-          probability: 30 // 概率，最多保留 4 位小数
+          probability: 25 // 概率，最多保留 4 位小数
         },
         {
           id: 2,
-          name: 'Red',
-          value: 'Red\'s value',
+          name: 'Nestoras1',
+          value: 'Red\'s value1',
           bgColor: '#dd3832',
           color: '#ffffff',
-          probability: 40
+          probability: 25
         },
         {
           id: 3,
-          name: 'Yellow',
-          value: 'Yellow\'s value',
-          bgColor: '#fef151',
+          name: 'Storas2', // 奖品名
+          value: 'Blue\'s value2', // 奖品值
+          bgColor: '#45ace9', // 背景色
+          color: '#ffffff', // 字体色
+          probability: 25 // 概率，最多保留 4 位小数
+        },
+        {
+          id: 4,
+          name: 'Nestoras2',
+          value: 'Red\'s value2',
+          bgColor: '#dd3832',
           color: '#ffffff',
-          probability: 30
+          probability: 25
         }
       ],
       prizesImage: [
@@ -120,7 +130,7 @@ export default Vue.extend({
       console.log('onImageRotateStart')
     },
     onRotateEnd (prize: PrizeConfig) {
-      //alert(prize.value)
+      // alert(prize.value)
       console.log(prize.value)
     },
     onChangePrize (id: number) {
