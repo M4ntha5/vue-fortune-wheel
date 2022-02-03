@@ -1,18 +1,14 @@
 <template>
   <div id="app" class="container">
     <div class="row">
-      <div class="">
-        <h2> Canvas </h2>
-
-        <fortune-wheel
-          style="width: 500px; max-width: 100%;"
-          :verify="canvasVerify"
-          :canvas="canvasOptions"
-          :prizes="prizesCanvas"
-          @rotateStart="onCanvasRotateStart"
-          @rotateEnd="onRotateEnd"
-        />
-      </div>
+      <h2> Canvas </h2>
+      <fortune-wheel
+        :verify="canvasVerify"
+        :canvas="canvasOptions"
+        :prizes="prizesCanvas"
+        @rotateStart="onCanvasRotateStart"
+        @rotateEnd="onRotateEnd"
+      />
     </div>
   </div>
 </template>
@@ -45,42 +41,42 @@ export default Vue.extend({
       canvasVerify: false,
       canvasOptions: {
         btnWidth: 140,
-        borderColor: '#584b43',
+        borderColor: '#fffff',
         borderWidth: 6,
         lineHeight: 50,
         textRadius: 200,
-        radius: 300
+        radius: 350
       },
       prizesCanvas: [
         {
           id: 1,
-          name: 'Storas1', // Prize name
-          value: 'Blue\'s value1', // Prize value
-          bgColor: '#45ace9', // background color
-          color: '#ffffff', // font color
-          probability: 25 // Probability, up to 4 decimal places
+          name: 'Miegot',
+          value: 'Blue\'s value1',
+          bgColor: '#75bcff',
+          color: '#ffffff',
+          probability: 25
         },
         {
           id: 2,
-          name: 'Nestoras1',
+          name: 'Deliot delione',
           value: 'Red\'s value1',
-          bgColor: '#dd3832',
+          bgColor: '#1adb54',
           color: '#ffffff',
           probability: 25
         },
         {
           id: 3,
-          name: 'Storas2', // Prize name
-          value: 'Blue\'s value2', // Prize value
-          bgColor: '#45ace9', // background color
-          color: '#ffffff', // font color
-          probability: 25 // Probability, up to 4 decimal places
+          name: 'Ziuret filma/seriala',
+          value: 'Red\'s value1',
+          bgColor: '#75bcff',
+          color: '#ffffff',
+          probability: 25
         },
         {
           id: 4,
-          name: 'Nestoras2',
-          value: 'Red\'s value2',
-          bgColor: '#dd3832',
+          name: 'Chillint ant sofkes',
+          value: 'Red\'s value1',
+          bgColor: '#1adb54',
           color: '#ffffff',
           probability: 25
         }
