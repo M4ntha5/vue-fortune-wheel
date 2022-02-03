@@ -71,16 +71,16 @@ interface CanvasConfig {
 }
 
 const canvasDefaultConfig = {
-  radius: 300, // 圆的半径
-  textRadius: 190, // 奖品位置距离圆心的距离
-  textLength: 20, // 奖品文本 1 行几个字符, 最多 2 行
-  textDirection: 'horizontal', // 奖品文本方向
-  lineHeight: 20, // 文本行高
-  borderWidth: 0, // 圆的外边框
-  borderColor: 'transparent', // 外边框的颜色
-  btnText: 'GO', // 开始按钮的文本
-  btnWidth: 140, // 按钮的宽
-  fontSize: 34, // 奖品字号
+  radius: 300, // the radius of the circle
+  textRadius: 190, // The distance between the prize position and the center of the circle
+  textLength: 20, // Prize text 1 line of several characters, up to 2 lines
+  textDirection: 'horizontal', // Prize text direction
+  lineHeight: 20, // text line height
+  borderWidth: 0, // round outer border
+  borderColor: 'transparent', // the color of the outer border
+  btnText: 'GO', // start button text
+  btnWidth: 140, // button width
+  fontSize: 34, // Prize size
   btnBgColor: '#5d119c',
   btnTextColor: '#fff'
 }
@@ -89,7 +89,7 @@ function getStrArray (str: string, len: number) {
   const arr = []
   while (str !== '') {
     let text = str.substr(0, len)
-    if (str.charAt(len) !== '' && str.charAt(len) !== ' ') { // 如果存在下一行并且下一行首字符不为空格
+    if (str.charAt(len) !== '' && str.charAt(len) !== ' ') { // If the next line exists and the first character of the next line is not a space
       const index = text.lastIndexOf(' ')
       if (index !== -1) text = text.substr(0, index)
     }
@@ -108,7 +108,7 @@ export default Vue.extend({
     },
     useWeight: {
       type: Boolean,
-      default: false // 以权重算概率
+      default: false // Probability by weight
     },
     disabled: {
       type: Boolean,
@@ -116,7 +116,7 @@ export default Vue.extend({
     },
     verify: {
       type: Boolean,
-      default: false // 是否开启验证
+      default: false // Whether to enable verification
     },
     canvas: {
       type: Object as PropType<CanvasConfig>,
@@ -244,36 +244,36 @@ export default Vue.extend({
       const canvasEl = this.$refs.wheel as HTMLCanvasElement
       if (canvasEl.getContext) {
         const { radius, textRadius, borderWidth, borderColor, fontSize } = this.canvasConfig
-        // 根据奖品个数计算圆周角度
+        // Calculate the circumference angle based on the number of prizes
         const arc = Math.PI / (this.prizes.length / 2)
         const ctx = canvasEl.getContext('2d') as CanvasRenderingContext2D
-        // 在给定矩形内清空一个矩形
+        // Empty a rectangle within the given rectangle
         ctx.clearRect(0, 0, radius * 2, radius * 2)
-        // strokeStyle 属性设置或返回用于笔触的颜色、渐变或模式
+        // strokeStyle Property sets or returns the color, gradient, or pattern used for the stroke
         ctx.strokeStyle = borderColor
         ctx.lineWidth = borderWidth * 2
-        // font 属性设置或返回画布上的文本内容的当前字体属性
+        // font Property sets or returns the current font property of the text content on the canvas
         ctx.font = `${fontSize}px Arial`
         this.prizes.forEach((row, i) => {
           const angle = i * arc - Math.PI / 2
           ctx.fillStyle = row.bgColor
           ctx.beginPath()
-          // arc(x, y, r, 起始角, 结束角, 绘制方向) 方法创建弧/曲线（用于创建圆或部分圆）
+          // arc(x, y, r, Start Angle, End Angle, Draw Direction) method to create arcs/curves (for creating circles or partial circles)
           ctx.arc(radius, radius, radius - borderWidth, angle, angle + arc, false)
           ctx.stroke()
           ctx.arc(radius, radius, 0, angle + arc, angle, true)
           ctx.fill()
-          // 锁画布（为了保存之前的画布状态）
+          // Lock the canvas (in order to save the previous canvas state)
           ctx.save()
-          // ----绘制奖品开始----
+          // ----draw prizes start----
           ctx.fillStyle = row.color
-          // translate方法重新映射画布上的 (0, 0) 位置
+          // translate method to remap the (0, 0) position on the canvas
           ctx.translate(radius + Math.cos(angle + arc / 2) * textRadius, radius + Math.sin(angle + arc / 2) * textRadius)
-          // rotate方法旋转当前的绘图
+          // rotate method to rotate the current drawing
           this.drawPrizeText(ctx, angle, arc, row.name)
-          // 把当前画布返回（调整）到上一个save()状态之前
+          // Returns (adjusts) the current canvas to the previous save() state
           ctx.restore()
-          // ----绘制奖品结束----
+          // ----draw prizes over----
         })
       }
     },

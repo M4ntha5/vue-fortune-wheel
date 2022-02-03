@@ -7,15 +7,15 @@ Application scenario: lottery
 
 ## Install
 ```
-yarn add vue-fortune-wheel
+yarn add improved-vue-fortune-wheel
 ```
 or
 ```
-npm install vue-fortune-wheel
+npm install improved-vue-fortune-wheel
 ```
 ## Language
 
-[English (By Google Translate)](./README.md)| [中文](./README.CN.md)
+[English (By Google Translate)](./README.md)
 
 ## Demo
 

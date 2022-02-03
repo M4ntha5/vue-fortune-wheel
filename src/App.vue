@@ -54,11 +54,11 @@ export default Vue.extend({
       prizesCanvas: [
         {
           id: 1,
-          name: 'Storas1', // 奖品名
-          value: 'Blue\'s value1', // 奖品值
-          bgColor: '#45ace9', // 背景色
-          color: '#ffffff', // 字体色
-          probability: 25 // 概率，最多保留 4 位小数
+          name: 'Storas1', // Prize name
+          value: 'Blue\'s value1', // Prize value
+          bgColor: '#45ace9', // background color
+          color: '#ffffff', // font color
+          probability: 25 // Probability, up to 4 decimal places
         },
         {
           id: 2,
@@ -70,11 +70,11 @@ export default Vue.extend({
         },
         {
           id: 3,
-          name: 'Storas2', // 奖品名
-          value: 'Blue\'s value2', // 奖品值
-          bgColor: '#45ace9', // 背景色
-          color: '#ffffff', // 字体色
-          probability: 25 // 概率，最多保留 4 位小数
+          name: 'Storas2', // Prize name
+          value: 'Blue\'s value2', // Prize value
+          bgColor: '#45ace9', // background color
+          color: '#ffffff', // font color
+          probability: 25 // Probability, up to 4 decimal places
         },
         {
           id: 4,
@@ -88,8 +88,8 @@ export default Vue.extend({
       prizesImage: [
         {
           id: 1,
-          value: 'Blue\'s value', // 奖品值
-          weight: 1 // 权重
+          value: 'Blue\'s value', // Prize value
+          weight: 1 // Weights
         },
         {
           id: 2,
@@ -112,14 +112,14 @@ export default Vue.extend({
   methods: {
     onCanvasRotateStart (rotate: Function) {
       if (this.canvasVerify) {
-        const verified = true // true: 测试通过验证, false: 测试未通过验证
+        const verified = true // true: test passed validation, false: test failed validation
         this.DoServiceVerify(verified, 2000).then((verifiedRes) => {
           if (verifiedRes) {
-            console.log('验证通过, 开始旋转')
-            rotate() // 调用回调, 开始旋转
-            this.canvasVerify = false // 关闭验证模式
+            console.log('Verification passed, start spinning')
+            rotate() // Call the callback, start spinning
+            this.canvasVerify = false // Turn off verification mode
           } else {
-            alert('未通过验证')
+            alert('Failed to verify')
           }
         })
         return
@@ -136,7 +136,7 @@ export default Vue.extend({
     onChangePrize (id: number) {
       this.prizeId = id
     },
-    DoServiceVerify (verified: boolean, duration: number) { // 参数 1: 是否通过验证, 2: 延迟时间
+    DoServiceVerify (verified: boolean, duration: number) { // Parameter 1: whether to pass the verification, 2: delay time
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve(verified)
