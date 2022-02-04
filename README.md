@@ -155,9 +155,13 @@ export default {
 | canvas.lineHeight | Text line height (type: canvas) | Number | 20 |
 | canvas.borderWidth | Round outer border (type: canvas) | Number | 0 |
 | canvas.borderColor | Color value of the outer border (type: canvas) | String | transparent |
+| canvas.fontSize | Prize size (px) | Number | 34 |
 | canvas.btnText | Button text (type: canvas) | String | GO |
 | canvas.btnWidth | Button width (px) | Number | 140 |
-| canvas.fontSize | Prize size (px) | Number | 34 |
+| canvas.btnBgColor | Button background color | String | #5d119c |
+| canvas.btnTextColor | Button text color | String | #FFFFFF |
+| canvas.btnFontSize | Button font size | Number | 42 |
+| canvas.btnBorderColor | Button border color | String | #FFFFFF |
 | duration | Time to complete one rotation (unit: ms) | Number | 6000 |
 | timingFun | Css time function of rotation transition | String | cubic-bezier(0.36, 0.95, 0.64, 1) |
 | angleBase | Number of rotations (angleBase * 360 is the total angle of one rotation, it can be reversed when it is a negative number) | Number | 10 |

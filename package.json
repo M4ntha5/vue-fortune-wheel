@@ -15,9 +15,8 @@
   },
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --skip-plugins @vue/cli-plugin-eslint",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint",
     "build:lib": "vue-cli-service build --target lib --name vue-fortune-wheel --dest lib src/components/FortuneWheel/install.js"
   },
   "dependencies": {
@@ -40,11 +39,9 @@
     "@vue/eslint-config-typescript": "^5.0.2",
     "@vue/test-utils": "^1.0.3",
     "chai": "^4.1.2",
-    "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^6.2.2",
     "sass": "^1.49.7",
     "sass-loader": "^8.0.2",

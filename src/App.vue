@@ -40,45 +40,83 @@ export default Vue.extend({
       prizeId: 0,
       canvasVerify: false,
       canvasOptions: {
-        btnWidth: 140,
-        borderColor: '#fffff',
+        borderColor: '#000000',
         borderWidth: 6,
         lineHeight: 50,
-        textRadius: 200,
-        radius: 350
+        textRadius: 300,
+        radius: 300,
+        btnBgColor: '#1F870E',
+        btnTextColor: '#ffffff',
+        btnText: 'KIKA',
+        btnWidth: 80,
+        btnFontSize: 24,
+        btnBorderColor: '#000000',
+        btnBorderWidth: 3
       },
       prizesCanvas: [
         {
           id: 1,
-          name: 'Miegot',
-          value: 'Blue\'s value1',
+          name: 'Blue',
+          value: 'Blue\'s value',
           bgColor: '#75bcff',
           color: '#ffffff',
-          probability: 25
+          probability: 12.5
         },
         {
           id: 2,
-          name: 'Deliot delione',
-          value: 'Red\'s value1',
-          bgColor: '#1adb54',
+          name: 'Red',
+          value: 'Red\'s value',
+          bgColor: '#F10025',
           color: '#ffffff',
-          probability: 25
+          probability: 12.5
         },
         {
           id: 3,
-          name: 'Ziuret filma/seriala',
-          value: 'Red\'s value1',
-          bgColor: '#75bcff',
+          name: 'Green',
+          value: 'Green\'s value',
+          bgColor: '#4CB300',
           color: '#ffffff',
-          probability: 25
+          probability: 12.5
         },
         {
           id: 4,
-          name: 'Chillint ant sofkes',
-          value: 'Red\'s value1',
-          bgColor: '#1adb54',
+          name: 'Yellow',
+          value: 'Yellow\'s value',
+          bgColor: '#F7F70A',
           color: '#ffffff',
-          probability: 25
+          probability: 12.5
+        },
+        {
+          id: 5,
+          name: 'Blue',
+          value: 'Blue\'s value',
+          bgColor: '#75bcff',
+          color: '#ffffff',
+          probability: 12.5
+        },
+        {
+          id: 6,
+          name: 'Red',
+          value: 'Red\'s value',
+          bgColor: '#F10025',
+          color: '#ffffff',
+          probability: 12.5
+        },
+        {
+          id: 7,
+          name: 'Green',
+          value: 'Green\'s value',
+          bgColor: '#4CB300',
+          color: '#ffffff',
+          probability: 12
+        },
+        {
+          id: 8,
+          name: 'Yellow',
+          value: 'Yellow\'s value',
+          bgColor: '#F7F70A',
+          color: '#ffffff',
+          probability: 13
         }
       ],
       prizesImage: [
@@ -120,7 +158,7 @@ export default Vue.extend({
         })
         return
       }
-      console.log('onCanvasRotateStart')
+      //console.log('onCanvasRotateStart')
     },
     onImageRotateStart () {
       console.log('onImageRotateStart')

@@ -24,7 +24,14 @@
           width: canvasConfig.btnWidth + 'px',
           height: canvasConfig.btnWidth + 'px',
           background: canvasConfig.btnBgColor,
-          color: canvasConfig.btnTextColor
+          color: canvasConfig.btnTextColor,
+          'border-width': canvasConfig.btnBorderWidth + 'px',
+          'font-size': canvasConfig.btnFontSize + 'px',
+          'border-color': canvasConfig.btnBorderColor,
+          '--upper-arrow-color': canvasConfig.btnBorderColor,
+          '--lower-arrow-color': canvasConfig.btnBgColor,
+          '--arrow-width': canvasConfig.btnBorderWidth * 3 + 'px',
+          '--arrow-width-bottom': canvasConfig.btnBorderWidth * 6 + 'px',
         }"
         @click="handleClick"
       >
@@ -68,10 +75,13 @@ interface CanvasConfig {
   fontSize: number;
   btnBgColor: string;
   btnTextColor: string;
+  btnFontSize: number;
+  btnBorderColor: string;
+  btnBorderWidth: number;
 }
 
 const canvasDefaultConfig = {
-  radius: 300, // the radius of the circle
+  radius: 250, // the radius of the circle
   textRadius: 190, // The distance between the prize position and the center of the circle
   textLength: 20, // Prize text 1 line of several characters, up to 2 lines
   textDirection: 'horizontal', // Prize text direction
@@ -82,7 +92,10 @@ const canvasDefaultConfig = {
   btnWidth: 140, // button width
   fontSize: 34, // Prize size
   btnBgColor: '#5d119c',
-  btnTextColor: '#fff'
+  btnTextColor: '#FFFFFF',
+  btnFontSize: 42,
+  btnBorderColor: '#FFFFFF',
+  btnBorderWidth: 3
 }
 
 function getStrArray (str: string, len: number) {
@@ -124,15 +137,15 @@ export default Vue.extend({
     },
     duration: {
       type: Number,
-      default: 6000 // Time of one rotation (milliseconds)
+      default: 10000 // Time of one rotation (milliseconds)
     },
     timingFun: {
       type: String,
-      default: 'cubic-bezier(0.36, 0.95, 0.64, 1)' // The transition time function of the rotation of the turntable
+      default: 'cubic-bezier(0.36,.99999,0.64,.99999)'//'cubic-bezier(0.36, 0.95, 0.64, 1)' // The transition time function of the rotation of the turntable
     },
     angleBase: {
       type: Number,
-      default: 10 // The base of the rotation angle, the number of rotations 360 * 10
+      default: 4 // The base of the rotation angle, the number of rotations 360 * 10
     },
     prizeId: {
       type: Number,
@@ -229,14 +242,15 @@ export default Vue.extend({
     this.checkProbability()
   },
   mounted (): void {
-    if (this.type === 'canvas') this.drawCanvas()
+    if (this.type === 'canvas')
+      this.drawCanvas()
   },
   methods: {
     // Check whether the total probability is 100
     checkProbability () {
-      if (this.probabilityTotal !== 100) {
+      if (this.probabilityTotal !== 100)
         throw new Error('Prizes Is Error: Sum of probabilities is not 100!')
-      }
+
       return true
     },
     // Draw canvas
@@ -310,7 +324,6 @@ export default Vue.extend({
       this.rotateEndDeg = 0
       this.isRotating = true
       const prizeId = this.prizeId || this.getRandomPrize()
-      console.log('on start', this.rotateBase, this.getTargetDeg(prizeId))
       this.rotateEndDeg = this.rotateBase + this.getTargetDeg(prizeId)
     },
     // End rotation
@@ -322,20 +335,19 @@ export default Vue.extend({
     // Get random prize id
     getRandomPrize (): number {
       const len = this.prizesIdArr.length
-      const prizeId = this.prizesIdArr[random(0, len - 1)]
-      return prizeId
+      return this.prizesIdArr[random(0, len - 1)]
     },
     // Get the angle of the prize
     getTargetDeg (prizeId: number): number {
       const angle = 360 / this.prizes.length
-      
+
       const num = this.prizes.findIndex(row => row.id === prizeId)
       this.prizeRes = this.prizes[num]
-      
-      const startAngle = 1 + angle * num
-      const endAngle = startAngle + angle - 1 
+
+      const startAngle = 10 + angle * num
+      const endAngle = startAngle + angle - 20
       const randomAngle = this.getRandomNumber(startAngle, endAngle)
-      
+
       return 360 - randomAngle
     },
     getRandomNumber (min: number, max: number): number {
