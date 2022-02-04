@@ -157,10 +157,10 @@ export default {
 | canvas.borderColor | Color value of the outer border (type: canvas) | String | transparent |
 | canvas.fontSize | Prize size (px) | Number | 34 |
 | canvas.btnText | Button text (type: canvas) | String | GO |
-| canvas.btnWidth | Button width (px) | Number | 140 |
-| canvas.btnBgColor | Button background color | String | #5d119c |
 | canvas.btnTextColor | Button text color | String | #FFFFFF |
 | canvas.btnFontSize | Button font size | Number | 42 |
+| canvas.btnWidth | Button width (px) | Number | 140 |
+| canvas.btnBgColor | Button background color | String | #5d119c |
 | canvas.btnBorderColor | Button border color | String | #FFFFFF |
 | duration | Time to complete one rotation (unit: ms) | Number | 6000 |
 | timingFun | Css time function of rotation transition | String | cubic-bezier(0.36, 0.95, 0.64, 1) |
