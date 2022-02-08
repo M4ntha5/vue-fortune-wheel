@@ -20,8 +20,18 @@
       <div
         v-if="type === 'canvas'"
         class="fw-btn__btn"
-        :style="{ width: canvasConfig.btnWidth + 'px', height: canvasConfig.btnWidth + 'px'}"
-        @click="handleClick">
+        :style="{
+          width: canvasConfig.btnWidth + 'px',
+          height: canvasConfig.btnWidth + 'px',
+          background: canvasConfig.btnBgColor,
+          color: canvasConfig.btnTextColor,
+          'font-size': canvasConfig.btnFontSize + 'px',
+          'border-color': canvasConfig.btnBorderColor,
+          '--upper-arrow-color': canvasConfig.btnBorderColor,
+          '--lower-arrow-color': canvasConfig.btnBgColor,
+        }"
+        @click="handleClick"
+      >
         {{ canvasConfig.btnText }}
       </div>
       <div v-else class="fw-btn__image" @click="handleClick">
@@ -37,7 +47,6 @@ import sumBy from 'lodash/sumBy'
 import random from 'lodash/random'
 
 interface PrizeConfig {
-  /* eslint-disable */
   id: number;
   name: string;
   value: any;
@@ -46,7 +55,6 @@ interface PrizeConfig {
   probability: number;
   weight: number;
   [propName: string]: any;
-  /* eslint-enable */
 }
 
 interface CanvasConfig {
@@ -60,26 +68,34 @@ interface CanvasConfig {
   btnText: string;
   btnWidth: number;
   fontSize: number;
+  btnBgColor: string;
+  btnTextColor: string;
+  btnFontSize: number;
+  btnBorderColor: string;
 }
 
 const canvasDefaultConfig = {
-  radius: 250, // 圆的半径
-  textRadius: 190, // 奖品位置距离圆心的距离
-  textLength: 6, // 奖品文本 1 行几个字符, 最多 2 行
-  textDirection: 'horizontal', // 奖品文本方向
-  lineHeight: 20, // 文本行高
-  borderWidth: 0, // 圆的外边框
-  borderColor: 'transparent', // 外边框的颜色
-  btnText: 'GO', // 开始按钮的文本
-  btnWidth: 140, // 按钮的宽
-  fontSize: 34 // 奖品字号
+  radius: 250, // the radius of the circle
+  textRadius: 190, // The distance between the prize position and the center of the circle
+  textLength: 20, // Prize text 1 line of several characters, up to 2 lines
+  textDirection: 'horizontal', // Prize text direction
+  lineHeight: 20, // text line height
+  borderWidth: 0, // round outer border
+  borderColor: 'transparent', // the color of the outer border
+  btnText: 'GO', // start button text
+  btnWidth: 140, // button width
+  fontSize: 34, // Prize size
+  btnBgColor: '#5d119c',
+  btnTextColor: '#FFFFFF',
+  btnFontSize: 42,
+  btnBorderColor: '#FFFFFF'
 }
 
 function getStrArray (str: string, len: number) {
   const arr = []
   while (str !== '') {
     let text = str.substr(0, len)
-    if (str.charAt(len) !== '' && str.charAt(len) !== ' ') { // 如果存在下一行并且下一行首字符不为空格
+    if (str.charAt(len) !== '' && str.charAt(len) !== ' ') { // If the next line exists and the first character of the next line is not a space
       const index = text.lastIndexOf(' ')
       if (index !== -1) text = text.substr(0, index)
     }
@@ -98,15 +114,15 @@ export default Vue.extend({
     },
     useWeight: {
       type: Boolean,
-      default: false // 以权重算概率
+      default: false // Probability by weight
     },
     disabled: {
       type: Boolean,
-      default: false // 是否禁用
+      default: false // Whether to disable
     },
     verify: {
       type: Boolean,
-      default: false // 是否开启验证
+      default: false // Whether to enable verification
     },
     canvas: {
       type: Object as PropType<CanvasConfig>,
@@ -114,54 +130,61 @@ export default Vue.extend({
     },
     duration: {
       type: Number,
-      default: 6000 // 从旋转一次的时间, 单位毫秒
+      default: 6000 // Time of one rotation (milliseconds)
     },
     timingFun: {
       type: String,
-      default: 'cubic-bezier(0.36, 0.95, 0.64, 1)' // 转盘的旋转的 transition 时间函数
+      default: 'cubic-bezier(0.36,.99999,0.64,.99999)'//'cubic-bezier(0.36, 0.95, 0.64, 1)'
+      // The transition time function of the rotation of the turntable
     },
     angleBase: {
       type: Number,
-      default: 10 // 旋转角度的基数, 旋转的圈数 360 * 10
+      default: 4 // The base of the rotation angle, the number of rotations 360 * 10
     },
     prizeId: {
       type: Number,
-      default: 0 // 0 时不使用, 其他值时, 旋转的结果为此 Id 的奖品, 可在旋转中改变
+      default: 0
+      // When it is 0, it is not used. For other values, the result of the rotation is the prize of this Id,
+      // which can be changed during rotation
     },
     prizes: {
       type: Array as PropType<PrizeConfig[]>,
       required: true,
-      default: () => [] // 奖品列表
+      default: () => [] // List of prizes
     }
   },
   data () {
     return {
-      isRotating: false, // 是否正在旋转
-      rotateEndDeg: 0, // 转盘旋转的角度
-      prizeRes: {} // 转盘的旋转结果
+      isRotating: false,
+      rotateEndDeg: 0,
+      prizeRes: {}
     }
   },
   computed: {
-    // canvas 的参数
+    // canvas
     canvasConfig (): CanvasConfig {
       return Object.assign(canvasDefaultConfig, this.canvas)
     },
-    // 所有奖品的概率和
+    // The probabilities of all prizes and
     probabilityTotal (): number {
       if (this.useWeight) return 100
       return sumBy(this.prizes, (row: PrizeConfig) => row.probability || 0)
     },
-    // 为了概率生成的奖品id的数组
+    // Array of prize ids generated for probability
     prizesIdArr (): Array<number> {
       const idArr: number[] = []
       this.prizes.forEach((row) => {
-        const count: number = this.useWeight ? (row.weight || 0) : ((row.probability || 0) * this.decimalSpaces)
+        const count: number = this.useWeight
+          ? (row.weight || 0)
+          : ((row.probability || 0) * this.decimalSpaces)
+
         const arr = (new Array(count)).fill(row.id)
         idArr.push(...arr)
       })
       return idArr
     },
-    // 奖品的概率保留几位小数, 最多保留 4 位 => ( 0: 1, 1: 10, 2: 100, 3: 1000, 4: 10000 )
+    // The probability of the prize keeps several decimal places,
+    // up to 4 digits => (0: 1, 1: 10, 2: 100, 3: 1000, 4: 10000)
     decimalSpaces (): number {
       if (this.useWeight) return 0
       const sortArr = [...this.prizes].sort((a, b) => {
@@ -185,13 +208,14 @@ export default Vue.extend({
         'transition-timing-function': this.timingFun
       }
     },
-    // 旋转一次的时长
+    // Time to spin once
     rotateDuration (): number {
       return this.isRotating ? this.duration / 1000 : 0
     },
     rotateBase (): number {
       let angle = this.angleBase * 360
-      if (this.angleBase < 0) angle -= 360
+      if (this.angleBase < 0)
+        angle -= 360
       return angle
     },
     canRotate (): boolean {
@@ -200,17 +224,22 @@ export default Vue.extend({
   },
   watch: {
     prizeId (newVal): void {
-      if (!this.isRotating) return
+      if (!this.isRotating)
+        return
+
       let newAngle = this.getTargetDeg(newVal)
-      if (this.angleBase < 0) newAngle -= 360
+      if (this.angleBase < 0)
+        newAngle -= 360
+
       const prevEndDeg = this.rotateEndDeg
       let nowEndDeg = this.angleBase * 360 + newAngle
       const angle = 360 * (Math.floor((nowEndDeg - prevEndDeg) / 360))
-      if (this.angleBase >= 0) {
+
+      if (this.angleBase >= 0)
         nowEndDeg += Math.abs(angle)
-      } else {
+      else
         nowEndDeg += -360 - angle
-      }
+
       this.rotateEndDeg = nowEndDeg
     }
   },
@@ -218,61 +247,67 @@ export default Vue.extend({
     this.checkProbability()
   },
   mounted (): void {
-    if (this.type === 'canvas') this.drawCanvas()
+    if (this.type === 'canvas')
+      this.drawCanvas()
   },
   methods: {
-    // 检测总概率是否为 100
+    // Check whether the total probability is 100
     checkProbability () {
-      if (this.probabilityTotal !== 100) {
+      if (this.probabilityTotal !== 100)
         throw new Error('Prizes Is Error: Sum of probabilities is not 100!')
-      }
+
       return true
     },
-    // 绘制canvas
+    // Draw canvas
     drawCanvas (): void {
       const canvasEl = this.$refs.wheel as HTMLCanvasElement
       if (canvasEl.getContext) {
         const { radius, textRadius, borderWidth, borderColor, fontSize } = this.canvasConfig
-        // 根据奖品个数计算圆周角度
+        // Calculate the circumference angle based on the number of prizes
         const arc = Math.PI / (this.prizes.length / 2)
         const ctx = canvasEl.getContext('2d') as CanvasRenderingContext2D
-        // 在给定矩形内清空一个矩形
+        // Empty a rectangle within the given rectangle
         ctx.clearRect(0, 0, radius * 2, radius * 2)
-        // strokeStyle 属性设置或返回用于笔触的颜色、渐变或模式
+        // strokeStyle Property sets or returns the color, gradient, or pattern used for the stroke
         ctx.strokeStyle = borderColor
         ctx.lineWidth = borderWidth * 2
-        // font 属性设置或返回画布上的文本内容的当前字体属性
+        // font Property sets or returns the current font property of the text content on the canvas
         ctx.font = `${fontSize}px Arial`
         this.prizes.forEach((row, i) => {
           const angle = i * arc - Math.PI / 2
           ctx.fillStyle = row.bgColor
           ctx.beginPath()
-          // arc(x, y, r, 起始角, 结束角, 绘制方向) 方法创建弧/曲线（用于创建圆或部分圆）
+          // arc(x, y, r, Start Angle, End Angle, Draw Direction) method to create arcs/curves (for creating circles or partial circles)
           ctx.arc(radius, radius, radius - borderWidth, angle, angle + arc, false)
           ctx.stroke()
           ctx.arc(radius, radius, 0, angle + arc, angle, true)
           ctx.fill()
-          // 锁画布（为了保存之前的画布状态）
+          // Lock the canvas (in order to save the previous canvas state)
           ctx.save()
-          // ----绘制奖品开始----
+          // ----draw prizes start----
           ctx.fillStyle = row.color
-          // translate方法重新映射画布上的 (0, 0) 位置
+          // translate method to remap the (0, 0) position on the canvas
           ctx.translate(radius + Math.cos(angle + arc / 2) * textRadius, radius + Math.sin(angle + arc / 2) * textRadius)
-          // rotate方法旋转当前的绘图
+          // rotate method to rotate the current drawing
           this.drawPrizeText(ctx, angle, arc, row.name)
-          // 把当前画布返回（调整）到上一个save()状态之前
+          // Returns (adjusts) the current canvas to the previous save() state
           ctx.restore()
-          // ----绘制奖品结束----
+          // ----draw prizes over----
         })
       }
     },
-    // 绘制奖品文本
+    // Draw prize text
     drawPrizeText (ctx: CanvasRenderingContext2D, angle: number, arc: number, name: string) {
       const { lineHeight, textLength, textDirection } = this.canvasConfig
-      // 下面代码根据奖品类型、奖品名称长度渲染不同效果, 如字体、颜色、图片效果。（具体根据实际情况改变）
+      // The following code renders different effects, such as fonts, colors, and picture effects,
+      // according to the type of prize and the length of the prize name.
+      // (The specific changes according to the actual situation)
       const content = getStrArray(name, textLength)
-      if (content === null) return
-      textDirection === 'vertical' ? ctx.rotate(angle + arc / 2 + Math.PI) : ctx.rotate(angle + arc / 2 + Math.PI / 2)
+      if (content.length == 0)
+        return
+      textDirection === 'vertical'
+        ? ctx.rotate(angle + arc / 2 + Math.PI)
+        : ctx.rotate(angle + arc / 2 + Math.PI / 2)
       content.forEach((text, idx) => {
         let textX = -ctx.measureText(text).width / 2
         let textY = (idx + 1) * lineHeight
@@ -292,30 +327,39 @@ export default Vue.extend({
       this.$emit('rotateStart')
       this.onRotateStart()
     },
-    // 开始旋转
+    // Start spinning
     onRotateStart (): void {
+      this.rotateEndDeg = 0
       this.isRotating = true
       const prizeId = this.prizeId || this.getRandomPrize()
       this.rotateEndDeg = this.rotateBase + this.getTargetDeg(prizeId)
     },
-    // 结束旋转
+    // End rotation
     onRotateEnd (): void {
       this.isRotating = false
       this.rotateEndDeg %= 360
       this.$emit('rotateEnd', this.prizeRes)
     },
-    // 获取随机奖品的 id
+    // Get random prize id
     getRandomPrize (): number {
       const len = this.prizesIdArr.length
-      const prizeId = this.prizesIdArr[random(0, len - 1)]
-      return prizeId
+      return this.prizesIdArr[random(0, len - 1)]
     },
-    // 获取奖品所在的角度
+    // Get the angle of the prize
     getTargetDeg (prizeId: number): number {
       const angle = 360 / this.prizes.length
+
       const num = this.prizes.findIndex(row => row.id === prizeId)
       this.prizeRes = this.prizes[num]
-      return 360 - (angle * num + angle / 2)
+
+      const startAngle = 10 + angle * num
+      const endAngle = startAngle + angle - 20
+      const randomAngle = this.getRandomNumber(startAngle, endAngle)
+
+      return 360 - randomAngle
+    },
+    getRandomNumber (min: number, max: number): number {
+      return Math.floor(Math.random() * (max - min + 1) + min)
     }
   }
 })

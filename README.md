@@ -7,15 +7,15 @@ Application scenario: lottery
 
 ## Install
 ```
-yarn add vue-fortune-wheel
+yarn add improved-vue-fortune-wheel
 ```
 or
 ```
-npm install vue-fortune-wheel
+npm install improved-vue-fortune-wheel
 ```
 ## Language
 
-[English (By Google Translate)](./README.md)| [中文](./README.CN.md)
+[English (By Google Translate)](./README.md)
 
 ## Demo
 
@@ -37,8 +37,8 @@ https://xiaolin1995.github.io/vue-fortune-wheel/demo/
       @rotateStart="onImageRotateStart"
       @rotateEnd="onRotateEnd"
     >
-      <img slot="wheel" src="@/assets/wheel.png" />
-      <img slot="button" src="@/assets/button.png" />
+      <img slot="wheel" src="@/assets/wheel.png" alt=""/>
+      <img slot="button" src="@/assets/button.png" alt=""/>
     </FortuneWheel>
 
     <!-- type: canvas -->
@@ -157,6 +157,10 @@ export default {
 | canvas.borderColor | Color value of the outer border (type: canvas) | String | transparent |
 | canvas.btnText | Button text (type: canvas) | String | GO |
 | canvas.btnWidth | Button width (px) | Number | 140 |
+| canvas.btnBgColor | Button background color | String | #5d119c |
+| canvas.btnTextColor | Button text color | String | #FFFFFF |
+| canvas.btnFontSize | Button font size | Number | 42 |
+| canvas.btnBorderColor | Button border color | String | #FFFFFF |
 | canvas.fontSize | Prize size (px) | Number | 34 |
 | duration | Time to complete one rotation (unit: ms) | Number | 6000 |
 | timingFun | Css time function of rotation transition | String | cubic-bezier(0.36, 0.95, 0.64, 1) |

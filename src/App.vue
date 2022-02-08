@@ -1,55 +1,23 @@
 <template>
   <div id="app" class="container">
     <div class="row">
-      <div class="col-md-6">
-        <h2> Canvas </h2>
-
-        <FortuneWheel
-          style="width: 500px; max-width: 100%;"
-          :verify="canvasVerify"
-          :canvas="canvasOptions"
-          :prizes="prizesCanvas"
-          @rotateStart="onCanvasRotateStart"
-          @rotateEnd="onRotateEnd"
-        />
-      </div>
-      <div class="col-md-6">
-        <h2> Image </h2>
-
-        <FortuneWheel
-          style="width: 500px; max-width: 100%;"
-          type="image"
-          :useWeight="true"
-          :verify="canvasVerify"
-          :prizeId="prizeId"
-          :angleBase="-2"
-          :prizes="prizesImage"
-          @rotateStart="onImageRotateStart"
-          @rotateEnd="onRotateEnd"
-        >
-          <img slot="wheel" src="@/assets/wheel.png" style="transform: rotateZ(60deg)" />
-          <img slot="button" src="@/assets/button.png" style="width: 180px"/>
-        </FortuneWheel>
-
-        <div class="btn-list">
-          <div class="btn" v-for="(item, idx) in prizesCanvas" :key="idx" :style="{ background: item.bgColor }" @click="onChangePrize(item.id)"></div>
-        </div>
-        <div class="wheel-result">
-          当前 100% <span :style="{ background: prizeRes.bgColor }"></span>
-          <br/> 点击按钮，可在旋转中强行改变结果,
-          <br/> 最好在旋转减速前, 大约一半的时间之前, 最好一次旋转只改变一次
-        </div>
-      </div>
+      <h2> Canvas </h2>
+      <fortune-wheel
+        :verify="canvasVerify"
+        :canvas="canvasOptions"
+        :prizes="prizesCanvas"
+        @rotateStart="onCanvasRotateStart"
+        @rotateEnd="onRotateEnd"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import FortuneWheel from './components/FortuneWheel/index.vue'
+import FortuneWheel from '@/components/fortuneWheel/index.vue'
 
 interface PrizeConfig {
-  /* eslint-disable */
   id: number;
   name: string;
   value: any;
@@ -58,7 +26,6 @@ interface PrizeConfig {
   probability: number;
   weight: number;
   [propName: string]: any;
-  /* eslint-enable */
 }
 
 export default Vue.extend({
@@ -71,42 +38,89 @@ export default Vue.extend({
       prizeId: 0,
       canvasVerify: false,
       canvasOptions: {
-        btnWidth: 140,
-        borderColor: '#584b43',
+        borderColor: '#000000',
         borderWidth: 6,
-        lineHeight: 30
+        lineHeight: 50,
+        textRadius: 300,
+        radius: 300,
+        btnBgColor: '#1F870E',
+        btnTextColor: '#ffffff',
+        btnText: 'KIKA',
+        btnWidth: 80,
+        btnFontSize: 24,
+        btnBorderColor: '#000000',
       },
       prizesCanvas: [
         {
           id: 1,
-          name: 'Blue', // 奖品名
-          value: 'Blue\'s value', // 奖品值
-          bgColor: '#45ace9', // 背景色
-          color: '#ffffff', // 字体色
-          probability: 30 // 概率，最多保留 4 位小数
+          name: 'Blue',
+          value: 'Blue\'s value',
+          bgColor: '#75bcff',
+          color: '#ffffff',
+          probability: 12.5
         },
         {
           id: 2,
           name: 'Red',
           value: 'Red\'s value',
-          bgColor: '#dd3832',
+          bgColor: '#F10025',
           color: '#ffffff',
-          probability: 40
+          probability: 12.5
         },
         {
           id: 3,
+          name: 'Green',
+          value: 'Green\'s value',
+          bgColor: '#4CB300',
+          color: '#ffffff',
+          probability: 12.5
+        },
+        {
+          id: 4,
           name: 'Yellow',
           value: 'Yellow\'s value',
-          bgColor: '#fef151',
+          bgColor: '#F7F70A',
           color: '#ffffff',
-          probability: 30
+          probability: 12.5
+        },
+        {
+          id: 5,
+          name: 'Blue',
+          value: 'Blue\'s value',
+          bgColor: '#75bcff',
+          color: '#ffffff',
+          probability: 12.5
+        },
+        {
+          id: 6,
+          name: 'Red',
+          value: 'Red\'s value',
+          bgColor: '#F10025',
+          color: '#ffffff',
+          probability: 12.5
+        },
+        {
+          id: 7,
+          name: 'Green',
+          value: 'Green\'s value',
+          bgColor: '#4CB300',
+          color: '#ffffff',
+          probability: 12
+        },
+        {
+          id: 8,
+          name: 'Yellow',
+          value: 'Yellow\'s value',
+          bgColor: '#F7F70A',
+          color: '#ffffff',
+          probability: 13
         }
       ],
       prizesImage: [
         {
           id: 1,
-          value: 'Blue\'s value', // 奖品值
-          weight: 1 // 权重
+          value: 'Blue\'s value', // Prize value
+          weight: 1 // Weights
         },
         {
           id: 2,
@@ -129,30 +143,30 @@ export default Vue.extend({
   methods: {
     onCanvasRotateStart (rotate: Function) {
       if (this.canvasVerify) {
-        const verified = true // true: 测试通过验证, false: 测试未通过验证
+        const verified = true // true: test passed validation, false: test failed validation
         this.DoServiceVerify(verified, 2000).then((verifiedRes) => {
           if (verifiedRes) {
-            console.log('验证通过, 开始旋转')
-            rotate() // 调用回调, 开始旋转
-            this.canvasVerify = false // 关闭验证模式
+            console.log('Verification passed, start spinning')
+            rotate() // Call the callback, start spinning
+            this.canvasVerify = false // Turn off verification mode
           } else {
-            alert('未通过验证')
+            alert('Failed to verify')
           }
         })
         return
       }
-      console.log('onCanvasRotateStart')
     },
     onImageRotateStart () {
       console.log('onImageRotateStart')
     },
     onRotateEnd (prize: PrizeConfig) {
-      alert(prize.value)
+      // alert(prize.value)
+      console.log(prize.value)
     },
     onChangePrize (id: number) {
       this.prizeId = id
     },
-    DoServiceVerify (verified: boolean, duration: number) { // 参数 1: 是否通过验证, 2: 延迟时间
+    DoServiceVerify (verified: boolean, duration: number) { // Parameter 1: whether to pass the verification, 2: delay time
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve(verified)
