@@ -46,7 +46,7 @@
     "url": "https://github.com/M4ntha5/vue-fortune-wheel"
   },
   "name": "improved-vue-fortune-wheel",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Component \"Wheel of Fortune\" for Vue",
   "author": "Mantas D"
 }
