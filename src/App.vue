@@ -18,7 +18,6 @@ import Vue from 'vue'
 import FortuneWheel from '@/components/fortuneWheel/index.vue'
 
 interface PrizeConfig {
-  /* eslint-disable */
   id: number;
   name: string;
   value: any;
@@ -27,7 +26,6 @@ interface PrizeConfig {
   probability: number;
   weight: number;
   [propName: string]: any;
-  /* eslint-enable */
 }
 
 export default Vue.extend({
@@ -157,7 +155,6 @@ export default Vue.extend({
         })
         return
       }
-      //console.log('onCanvasRotateStart')
     },
     onImageRotateStart () {
       console.log('onImageRotateStart')

@@ -47,7 +47,6 @@ import sumBy from 'lodash/sumBy'
 import random from 'lodash/random'
 
 interface PrizeConfig {
-  /* eslint-disable */
   id: number;
   name: string;
   value: any;
@@ -56,7 +55,6 @@ interface PrizeConfig {
   probability: number;
   weight: number;
   [propName: string]: any;
-  /* eslint-enable */
 }
 
 interface CanvasConfig {
@@ -132,11 +130,12 @@ export default Vue.extend({
     },
     duration: {
       type: Number,
-      default: 10000 // Time of one rotation (milliseconds)
+      default: 6000 // Time of one rotation (milliseconds)
     },
     timingFun: {
       type: String,
-      default: 'cubic-bezier(0.36,.99999,0.64,.99999)'//'cubic-bezier(0.36, 0.95, 0.64, 1)' // The transition time function of the rotation of the turntable
+      default: 'cubic-bezier(0.36,.99999,0.64,.99999)'//'cubic-bezier(0.36, 0.95, 0.64, 1)'
+      // The transition time function of the rotation of the turntable
     },
     angleBase: {
       type: Number,
@@ -144,7 +143,9 @@ export default Vue.extend({
     },
     prizeId: {
       type: Number,
-      default: 0 // When it is 0, it is not used. For other values, the result of the rotation is the prize of this Id, which can be changed during rotation
+      default: 0
+      // When it is 0, it is not used. For other values, the result of the rotation is the prize of this Id,
+      // which can be changed during rotation
     },
     prizes: {
       type: Array as PropType<PrizeConfig[]>,
@@ -173,7 +174,10 @@ export default Vue.extend({
     prizesIdArr (): Array<number> {
       const idArr: number[] = []
       this.prizes.forEach((row) => {
-        const count: number = this.useWeight ? (row.weight || 0) : ((row.probability || 0) * this.decimalSpaces)
+        const count: number = this.useWeight
+          ? (row.weight || 0)
+          : ((row.probability || 0) * this.decimalSpaces)
+
         const arr = (new Array(count)).fill(row.id)
         idArr.push(...arr)
       })
@@ -210,7 +214,8 @@ export default Vue.extend({
     },
     rotateBase (): number {
       let angle = this.angleBase * 360
-      if (this.angleBase < 0) angle -= 360
+      if (this.angleBase < 0)
+        angle -= 360
       return angle
     },
     canRotate (): boolean {
@@ -219,17 +224,22 @@ export default Vue.extend({
   },
   watch: {
     prizeId (newVal): void {
-      if (!this.isRotating) return
+      if (!this.isRotating)
+        return
+
       let newAngle = this.getTargetDeg(newVal)
-      if (this.angleBase < 0) newAngle -= 360
+      if (this.angleBase < 0)
+        newAngle -= 360
+
       const prevEndDeg = this.rotateEndDeg
       let nowEndDeg = this.angleBase * 360 + newAngle
       const angle = 360 * (Math.floor((nowEndDeg - prevEndDeg) / 360))
-      if (this.angleBase >= 0) {
+
+      if (this.angleBase >= 0)
         nowEndDeg += Math.abs(angle)
-      } else {
+      else
         nowEndDeg += -360 - angle
-      }
+
       this.rotateEndDeg = nowEndDeg
     }
   },
@@ -293,8 +303,11 @@ export default Vue.extend({
       // according to the type of prize and the length of the prize name.
       // (The specific changes according to the actual situation)
       const content = getStrArray(name, textLength)
-      if (content === null) return
-      textDirection === 'vertical' ? ctx.rotate(angle + arc / 2 + Math.PI) : ctx.rotate(angle + arc / 2 + Math.PI / 2)
+      if (content.length == 0)
+        return
+      textDirection === 'vertical'
+        ? ctx.rotate(angle + arc / 2 + Math.PI)
+        : ctx.rotate(angle + arc / 2 + Math.PI / 2)
       content.forEach((text, idx) => {
         let textX = -ctx.measureText(text).width / 2
         let textY = (idx + 1) * lineHeight

@@ -37,8 +37,8 @@ https://xiaolin1995.github.io/vue-fortune-wheel/demo/
       @rotateStart="onImageRotateStart"
       @rotateEnd="onRotateEnd"
     >
-      <img slot="wheel" src="@/assets/wheel.png" />
-      <img slot="button" src="@/assets/button.png" />
+      <img slot="wheel" src="@/assets/wheel.png" alt=""/>
+      <img slot="button" src="@/assets/button.png" alt=""/>
     </FortuneWheel>
 
     <!-- type: canvas -->
