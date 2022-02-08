@@ -1,18 +1,26 @@
 {
+  "name": "improved-vue-fortune-wheel",
+  "version": "2.0.0",
+  "description": "Component \"Wheel of Fortune\" for Vue",
+  "author": "Mantas D",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
-    "build:lib": "vue-cli-service build --target lib --name vue-fortune-wheel --dest lib src/components/FortuneWheel/install.js"
+    "build:lib": "vue-cli-service build --target lib --name improved-vue-fortune-wheel --dest lib src/components/FortuneWheel/install.js"
   },
   "main": "lib/vue-fortune-wheel.umd.min.js",
   "dependencies": {
+    "@types/jest": "^27.4.0",
     "core-js": "^3.21.0",
+    "entry": "^0.4.0",
     "lodash": "^4.17.20",
     "normalize.css": "^8.0.1",
     "vue": "^2.6.11"
   },
   "devDependencies": {
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^5.2.4",
     "@types/lodash": "^4.14.162",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
@@ -23,6 +31,7 @@
     "@vue/eslint-config-standard": "^5.1.2",
     "@vue/eslint-config-typescript": "^5.0.2",
     "@vue/test-utils": "^1.0.3",
+    "chai": "^4.1.2",
     "eslint": "^8.8.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.20.2",
@@ -42,11 +51,6 @@
   "keywords": [],
   "license": "MIT",
   "repository": {
-    "type": "git",
-    "url": "https://github.com/M4ntha5/vue-fortune-wheel"
-  },
-  "name": "improved-vue-fortune-wheel",
-  "version": "2.0.0",
-  "description": "Component \"Wheel of Fortune\" for Vue",
-  "author": "Mantas D"
+    "git": "//github.com/M4ntha5/vue-fortune-wheel.git"
+  }
 }
