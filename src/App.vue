@@ -1,19 +1,17 @@
 <template>
-  <div id="app" class="container">
-    <div class="row">
-      <h2> Canvas </h2>
-      <fortune-wheel
-        :verify="canvasVerify"
-        :canvas="canvasOptions"
-        :prizes="prizesCanvas"
-        @rotateStart="onCanvasRotateStart"
-        @rotateEnd="onRotateEnd"
-      />
-    </div>
+  <div id="app">
+    <fortune-wheel
+      :verify="canvasVerify"
+      :canvas="canvasOptions"
+      :prizes="prizesCanvas"
+      @rotateStart="onCanvasRotateStart"
+      @rotateEnd="onRotateEnd"
+    />
   </div>
 </template>
 
 <script lang="ts">
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Vue from 'vue'
 import FortuneWheel from '@/components/fortuneWheel/index.vue'
 
@@ -48,7 +46,7 @@ export default Vue.extend({
         btnText: 'KIKA',
         btnWidth: 80,
         btnFontSize: 24,
-        btnBorderColor: '#000000',
+        btnBorderColor: '#000000'
       },
       prizesCanvas: [
         {
@@ -142,7 +140,9 @@ export default Vue.extend({
   },
   methods: {
     onCanvasRotateStart (rotate: Function) {
-      if (this.canvasVerify) {
+      if (!this.canvasVerify)
+        return
+      else {
         const verified = true // true: test passed validation, false: test failed validation
         this.DoServiceVerify(verified, 2000).then((verifiedRes) => {
           if (verifiedRes) {
@@ -153,7 +153,6 @@ export default Vue.extend({
             alert('Failed to verify')
           }
         })
-        return
       }
     },
     onImageRotateStart () {
@@ -166,7 +165,8 @@ export default Vue.extend({
     onChangePrize (id: number) {
       this.prizeId = id
     },
-    DoServiceVerify (verified: boolean, duration: number) { // Parameter 1: whether to pass the verification, 2: delay time
+    DoServiceVerify (verified: boolean, duration: number) {
+      // Parameter 1: whether to pass the verification, 2: delay time
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve(verified)

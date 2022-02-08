@@ -42,6 +42,7 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable curly,spaced-comment */
 import Vue, { PropType } from 'vue'
 import sumBy from 'lodash/sumBy'
 import random from 'lodash/random'
@@ -303,7 +304,7 @@ export default Vue.extend({
       // according to the type of prize and the length of the prize name.
       // (The specific changes according to the actual situation)
       const content = getStrArray(name, textLength)
-      if (content.length == 0)
+      if (content.length === 0)
         return
       textDirection === 'vertical'
         ? ctx.rotate(angle + arc / 2 + Math.PI)

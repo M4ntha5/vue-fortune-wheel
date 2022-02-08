@@ -1,5 +1,5 @@
 
-# Vue-Fortune-Wheel
+# Improved-Vue-Fortune-Wheel
 
 Component name: Wheel of Fortune, Wheel of Fortune, Wheel of Fortune
 

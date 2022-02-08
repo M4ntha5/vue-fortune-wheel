@@ -1,15 +1,15 @@
 {
   "name": "improved-vue-fortune-wheel",
-  "version": "2.0.1",
+  "version": "2.0.5",
   "description": "Component \"Wheel of Fortune\" for Vue",
   "author": "Mantas D",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
-    "build:lib": "vue-cli-service build --target lib --name improved-vue-fortune-wheel --dest lib src/components/FortuneWheel/install.js"
+    "build:lib": "vue-cli-service build --target lib --name improved-vue-fortune-wheel --dest lib src/components/fortuneWheel/install.js"
   },
-  "main": "lib/vue-fortune-wheel.umd.min.js",
+  "main": "lib/improved-vue-fortune-wheel.umd.min.js",
   "dependencies": {
     "@types/jest": "^27.4.0",
     "core-js": "^3.21.0",
@@ -20,8 +20,8 @@
   },
   "devDependencies": {
     "@types/chai": "^4.2.11",
-    "@types/mocha": "^5.2.4",
     "@types/lodash": "^4.14.162",
+    "@types/mocha": "^5.2.4",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -32,15 +32,13 @@
     "@vue/eslint-config-typescript": "^5.0.2",
     "@vue/test-utils": "^1.0.3",
     "chai": "^4.1.2",
-    "eslint": "^8.8.0",
-    "eslint-config-prettier": "^8.3.0",
+    "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^6.2.2",
-    "prettier": "2.5.1",
-    "sass": "^1.49.7",
+    "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "typescript": "~3.9.3",
     "vue-template-compiler": "^2.6.11"
