@@ -51,7 +51,6 @@ export default Vue.extend({
         btnWidth: 80,
         btnFontSize: 24,
         btnBorderColor: '#000000',
-        btnBorderWidth: 3
       },
       prizesCanvas: [
         {

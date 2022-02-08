@@ -25,13 +25,10 @@
           height: canvasConfig.btnWidth + 'px',
           background: canvasConfig.btnBgColor,
           color: canvasConfig.btnTextColor,
-          'border-width': canvasConfig.btnBorderWidth + 'px',
           'font-size': canvasConfig.btnFontSize + 'px',
           'border-color': canvasConfig.btnBorderColor,
           '--upper-arrow-color': canvasConfig.btnBorderColor,
           '--lower-arrow-color': canvasConfig.btnBgColor,
-          '--arrow-width': canvasConfig.btnBorderWidth * 3 + 'px',
-          '--arrow-width-bottom': canvasConfig.btnBorderWidth * 6 + 'px',
         }"
         @click="handleClick"
       >
@@ -77,7 +74,6 @@ interface CanvasConfig {
   btnTextColor: string;
   btnFontSize: number;
   btnBorderColor: string;
-  btnBorderWidth: number;
 }
 
 const canvasDefaultConfig = {
@@ -94,8 +90,7 @@ const canvasDefaultConfig = {
   btnBgColor: '#5d119c',
   btnTextColor: '#FFFFFF',
   btnFontSize: 42,
-  btnBorderColor: '#FFFFFF',
-  btnBorderWidth: 3
+  btnBorderColor: '#FFFFFF'
 }
 
 function getStrArray (str: string, len: number) {
