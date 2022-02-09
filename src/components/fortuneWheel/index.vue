@@ -320,6 +320,9 @@ export default Vue.extend({
       })
     },
     handleClick (): void {
+      this.$emit('buttonClick')
+    },
+    spin(){
       if (!this.canRotate) return
       if (this.verify) {
         this.$emit('rotateStart', this.onRotateStart)

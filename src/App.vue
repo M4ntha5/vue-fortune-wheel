@@ -1,11 +1,13 @@
+<!--suppress ES6ShorthandObjectProperty -->
 <template>
   <div id="app">
     <fortune-wheel
+      ref="wheel"
       :verify="canvasVerify"
       :canvas="canvasOptions"
       :prizes="prizesCanvas"
-      @rotateStart="onCanvasRotateStart"
       @rotateEnd="onRotateEnd"
+      @buttonClick="btnClicked"
     />
   </div>
 </template>
@@ -139,31 +141,33 @@ export default Vue.extend({
     }
   },
   methods: {
-    onCanvasRotateStart (rotate: Function) {
+    onRotateStart () {
+      console.log('verify', this.canvasVerify)
+      this.verify()
+    },
+    verify(){
       if (!this.canvasVerify)
-        return
+        this.$refs?.wheel?.spin();
       else {
         const verified = true // true: test passed validation, false: test failed validation
         this.DoServiceVerify(verified, 2000).then((verifiedRes) => {
           if (verifiedRes) {
             console.log('Verification passed, start spinning')
-            rotate() // Call the callback, start spinning
+            this.$refs?.wheel?.spin(); //  start spinning
             this.canvasVerify = false // Turn off verification mode
-          } else {
-            alert('Failed to verify')
           }
+          else
+            return false
         })
       }
     },
-    onImageRotateStart () {
-      console.log('onImageRotateStart')
+    btnClicked(){
+      console.log('btn click')
+      //spin
+      this.$refs?.wheel?.spin();
     },
     onRotateEnd (prize: PrizeConfig) {
-      // alert(prize.value)
       console.log(prize.value)
-    },
-    onChangePrize (id: number) {
-      this.prizeId = id
     },
     DoServiceVerify (verified: boolean, duration: number) {
       // Parameter 1: whether to pass the verification, 2: delay time
