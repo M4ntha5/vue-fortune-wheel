@@ -138,6 +138,9 @@ export default Vue.extend({
   computed: {
     prizeRes (): object {
       return this.prizesImage.filter(item => item.id === this.prizeId)[0] || {}
+    },
+    wheel() :any{
+      return this.$refs.wheel
     }
   },
   methods: {
@@ -147,13 +150,13 @@ export default Vue.extend({
     },
     verify(){
       if (!this.canvasVerify)
-        this.$refs?.wheel?.spin();
+        this.spin()
       else {
         const verified = true // true: test passed validation, false: test failed validation
         this.DoServiceVerify(verified, 2000).then((verifiedRes) => {
           if (verifiedRes) {
             console.log('Verification passed, start spinning')
-            this.$refs?.wheel?.spin(); //  start spinning
+            this.spin() //  start spinning
             this.canvasVerify = false // Turn off verification mode
           }
           else
@@ -161,10 +164,13 @@ export default Vue.extend({
         })
       }
     },
+    spin(){
+      this.wheel.spin()
+    },
     btnClicked(){
       console.log('btn click')
       //spin
-      this.$refs?.wheel?.spin();
+      this.spin()
     },
     onRotateEnd (prize: PrizeConfig) {
       console.log(prize.value)
