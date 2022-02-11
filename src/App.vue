@@ -43,7 +43,7 @@ export default Vue.extend({
         lineHeight: 50,
         textRadius: 300,
         radius: 300,
-        btnBgColor: '#1F870E',
+        btnBgColor: '#ffffff',
         btnTextColor: '#ffffff',
         btnText: 'KIKA',
         btnWidth: 80,

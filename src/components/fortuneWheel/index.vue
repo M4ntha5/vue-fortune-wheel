@@ -32,7 +32,10 @@
         }"
         @click="handleClick"
       >
-        {{ canvasConfig.btnText }}
+        <!-- todo add option to add image
+        <img src="https://www.kika.lt/images/galleries/projects/1637323841_kika-30-94x75.png" alt=""/>
+        -->
+       {{ canvasConfig.btnText }}
       </div>
       <div v-else class="fw-btn__image" @click="handleClick">
         <slot name="button"/>
