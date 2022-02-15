@@ -70,5 +70,10 @@
 }
 
 .fw-btn__image {
-  display: inline-block;
+  //display: inline-block;
+
+  position: absolute;
+  bottom: 11.5vw;
+  right: 3vw;
+
 }

@@ -5,7 +5,7 @@
       ref="wheel"
       :verify="canvasVerify"
       :canvas="canvasOptions"
-      :prizes="prizesCanvas"
+      :prizes="prizes"
       @rotateEnd="onRotateEnd"
       @buttonClick="btnClicked"
     />
@@ -41,7 +41,7 @@ export default Vue.extend({
         borderColor: '#000000',
         borderWidth: 6,
         lineHeight: 50,
-        textRadius: 300,
+        textRadius: 220,
         radius: 300,
         btnBgColor: '#ffffff',
         btnTextColor: '#ffffff',
@@ -50,14 +50,15 @@ export default Vue.extend({
         btnFontSize: 24,
         btnBorderColor: '#000000'
       },
-      prizesCanvas: [
+      prizes: [
         {
           id: 1,
           name: 'Blue',
           value: 'Blue\'s value',
           bgColor: '#75bcff',
           color: '#ffffff',
-          probability: 12.5
+          probability: 12.5,
+          weight: 5
         },
         {
           id: 2,
@@ -65,7 +66,8 @@ export default Vue.extend({
           value: 'Red\'s value',
           bgColor: '#F10025',
           color: '#ffffff',
-          probability: 12.5
+          probability: 12.5,
+          weight: 5
         },
         {
           id: 3,
@@ -73,7 +75,8 @@ export default Vue.extend({
           value: 'Green\'s value',
           bgColor: '#4CB300',
           color: '#ffffff',
-          probability: 12.5
+          probability: 12.5,
+          weight: 5
         },
         {
           id: 4,
@@ -81,7 +84,8 @@ export default Vue.extend({
           value: 'Yellow\'s value',
           bgColor: '#F7F70A',
           color: '#ffffff',
-          probability: 12.5
+          probability: 12.5,
+          weight: 5
         },
         {
           id: 5,
@@ -89,7 +93,8 @@ export default Vue.extend({
           value: 'Blue\'s value',
           bgColor: '#75bcff',
           color: '#ffffff',
-          probability: 12.5
+          probability: 12.5,
+          weight: 5
         },
         {
           id: 6,
@@ -97,7 +102,8 @@ export default Vue.extend({
           value: 'Red\'s value',
           bgColor: '#F10025',
           color: '#ffffff',
-          probability: 12.5
+          probability: 12.5,
+          weight: 5
         },
         {
           id: 7,
@@ -105,7 +111,8 @@ export default Vue.extend({
           value: 'Green\'s value',
           bgColor: '#4CB300',
           color: '#ffffff',
-          probability: 12
+          probability: 12,
+          weight: 5
         },
         {
           id: 8,
@@ -113,7 +120,8 @@ export default Vue.extend({
           value: 'Yellow\'s value',
           bgColor: '#F7F70A',
           color: '#ffffff',
-          probability: 13
+          probability: 13,
+          weight: 5
         }
       ],
       prizesImage: [
@@ -139,8 +147,11 @@ export default Vue.extend({
     prizeRes (): object {
       return this.prizesImage.filter(item => item.id === this.prizeId)[0] || {}
     },
-    wheel() :any{
+    wheel() :any {
       return this.$refs.wheel
+    },
+    image() :any {
+      return this.$refs.image
     }
   },
   methods: {
@@ -166,6 +177,9 @@ export default Vue.extend({
     },
     spin(){
       this.wheel.spin()
+    },
+    spinImage(){
+      this.image.spin()
     },
     btnClicked(){
       console.log('btn click')
