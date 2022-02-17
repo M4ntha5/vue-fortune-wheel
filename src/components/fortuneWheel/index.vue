@@ -32,10 +32,12 @@
         }"
         @click="handleClick"
       >
-        <!-- todo add option to add image
-        <img src="https://www.kika.lt/images/galleries/projects/1637323841_kika-30-94x75.png" alt=""/>
-        -->
-       {{ canvasConfig.btnText }}
+        <template v-if="canvasConfig.btnImageSrc">
+          <img :src="canvasConfig.btnImageSrc" alt="Fortune wheel button image"/>
+        </template>
+        <template v-else>
+          {{ canvasConfig.btnText }}
+        </template>
       </div>
       <div v-else class="fw-btn__image" @click="handleClick">
         <slot name="button"/>
@@ -58,6 +60,7 @@ interface PrizeConfig {
   color: string;
   probability: number;
   weight: number;
+  imageSrc: string;
   [propName: string]: any;
 }
 
@@ -66,16 +69,17 @@ interface CanvasConfig {
   textRadius: number;
   textLength: number;
   textDirection: string;
+  textFontSize: number;
   lineHeight: number;
   borderWidth: number;
   borderColor: string;
   btnText: string;
   btnWidth: number;
-  fontSize: number;
   btnBgColor: string;
   btnTextColor: string;
   btnFontSize: number;
   btnBorderColor: string;
+  btnImageSrc: string;
 }
 
 const canvasDefaultConfig = {
@@ -88,11 +92,12 @@ const canvasDefaultConfig = {
   borderColor: 'transparent', // the color of the outer border
   btnText: 'GO', // start button text
   btnWidth: 140, // button width
-  fontSize: 34, // Prize size
+  textFontSize: 34, // Prize size
   btnBgColor: '#5d119c',
   btnTextColor: '#FFFFFF',
   btnFontSize: 42,
-  btnBorderColor: '#FFFFFF'
+  btnBorderColor: '#FFFFFF',
+  btnImageSrc: ''
 }
 
 function getStrArray (str: string, len: number) {
@@ -266,7 +271,7 @@ export default Vue.extend({
     drawCanvas (): void {
       const canvasEl = this.$refs.wheel as HTMLCanvasElement
       if (canvasEl.getContext) {
-        const { radius, textRadius, borderWidth, borderColor, fontSize } = this.canvasConfig
+        const { radius, textRadius, borderWidth, borderColor, textFontSize } = this.canvasConfig
         // Calculate the circumference angle based on the number of prizes
         const arc = Math.PI / (this.prizes.length / 2)
         const ctx = canvasEl.getContext('2d') as CanvasRenderingContext2D
@@ -276,7 +281,8 @@ export default Vue.extend({
         ctx.strokeStyle = borderColor
         ctx.lineWidth = borderWidth * 2
         // font Property sets or returns the current font property of the text content on the canvas
-        ctx.font = `${fontSize}px Arial`
+        ctx.font = `${textFontSize}px Arial`
+
         this.prizes.forEach((row, i) => {
           const angle = i * arc - Math.PI / 2
           ctx.fillStyle = row.bgColor
@@ -290,16 +296,43 @@ export default Vue.extend({
           ctx.save()
           // ----draw prizes start----
           ctx.fillStyle = row.color
-          // translate method to remap the (0, 0) position on the canvas
-          ctx.translate(radius + Math.cos(angle + arc / 2) * textRadius, radius + Math.sin(angle + arc / 2) * textRadius)
-          // rotate method to rotate the current drawing
-          this.drawPrizeText(ctx, angle, arc, row.name)
+
+          //if image src exists add image as a prize
+          //else add text as a prize
+          if(row.imageSrc && row.imageSrc.length > 0)
+            this.drawPrizeImage(ctx, angle, arc, row.imageSrc)
+          else {
+            // translate method to remap the (0, 0) position on the canvas
+            ctx.translate(radius + Math.cos(angle + arc / 2) * textRadius, radius + Math.sin(angle + arc / 2) * textRadius)
+            this.drawPrizeText(ctx, angle, arc, row.name)
+          }
           // Returns (adjusts) the current canvas to the previous save() state
           ctx.restore()
           // ----draw prizes over----
         })
       }
     },
+    // Adds image as a prize
+    drawPrizeImage(ctx: CanvasRenderingContext2D, angle: number, arc: number, src: string){
+      const { radius, textRadius, textDirection } = this.canvasConfig
+      let image = new Image()
+      image.src = src
+
+      let x = (radius + Math.cos(angle + arc / 2) * textRadius) - 100 * image.height / image.width / 2
+      let y = (radius + Math.sin(angle + arc / 2) * textRadius) - 100 * image.height / image.width / 2
+
+      let translateX = radius + Math.cos(angle + arc / 2) * textRadius
+      let translateY = radius + Math.sin(angle + arc / 2) * textRadius
+
+      ctx.translate(translateX, translateY)
+      textDirection === 'vertical'
+        ? ctx.rotate(angle + arc / 2 + Math.PI)
+        : ctx.rotate(angle + arc / 2 + Math.PI / 2)
+      ctx.translate(-translateX, -translateY)
+
+      ctx.drawImage(image, x, y, 100, 100 * image.height / image.width)
+    },
+
     // Draw prize text
     drawPrizeText (ctx: CanvasRenderingContext2D, angle: number, arc: number, name: string) {
       const { lineHeight, textLength, textDirection } = this.canvasConfig
@@ -331,6 +364,11 @@ export default Vue.extend({
         this.$emit('rotateStart', this.onRotateStart)
         return
       }
+      this.$emit('rotateStart')
+      this.onRotateStart()
+    },
+    spinImage(){
+      if (!this.canRotate) return
       this.$emit('rotateStart')
       this.onRotateStart()
     },
