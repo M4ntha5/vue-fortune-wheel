@@ -1,4 +1,3 @@
-<!--suppress ES6ShorthandObjectProperty -->
 <template>
   <div id="app">
     <fortune-wheel
@@ -13,7 +12,6 @@
 </template>
 
 <script lang="ts">
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Vue from 'vue'
 import FortuneWheel from '@/components/fortuneWheel/index.vue'
 
@@ -25,6 +23,7 @@ interface PrizeConfig {
   color: string;
   probability: number;
   weight: number;
+  imageSrc: string;
   [propName: string]: any;
 }
 
@@ -43,12 +42,13 @@ export default Vue.extend({
         lineHeight: 50,
         textRadius: 220,
         radius: 300,
-        btnBgColor: '#ffffff',
+        btnBgColor: '#178704',
         btnTextColor: '#ffffff',
-        btnText: 'KIKA',
+        btnText: 'GO',
         btnWidth: 80,
-        btnFontSize: 24,
-        btnBorderColor: '#000000'
+        btnFontSize: 32,
+        btnBorderColor: '#000000',
+        btnImageSrc: ''
       },
       prizes: [
         {
@@ -57,7 +57,7 @@ export default Vue.extend({
           value: 'Blue\'s value',
           bgColor: '#75bcff',
           color: '#ffffff',
-          probability: 12.5,
+          probability: 25,
           weight: 5
         },
         {
@@ -66,7 +66,7 @@ export default Vue.extend({
           value: 'Red\'s value',
           bgColor: '#F10025',
           color: '#ffffff',
-          probability: 12.5,
+          probability: 25,
           weight: 5
         },
         {
@@ -75,7 +75,7 @@ export default Vue.extend({
           value: 'Green\'s value',
           bgColor: '#4CB300',
           color: '#ffffff',
-          probability: 12.5,
+          probability: 25,
           weight: 5
         },
         {
@@ -83,70 +83,14 @@ export default Vue.extend({
           name: 'Yellow',
           value: 'Yellow\'s value',
           bgColor: '#F7F70A',
-          color: '#ffffff',
-          probability: 12.5,
-          weight: 5
-        },
-        {
-          id: 5,
-          name: 'Blue',
-          value: 'Blue\'s value',
-          bgColor: '#75bcff',
-          color: '#ffffff',
-          probability: 12.5,
-          weight: 5
-        },
-        {
-          id: 6,
-          name: 'Red',
-          value: 'Red\'s value',
-          bgColor: '#F10025',
-          color: '#ffffff',
-          probability: 12.5,
-          weight: 5
-        },
-        {
-          id: 7,
-          name: 'Green',
-          value: 'Green\'s value',
-          bgColor: '#4CB300',
-          color: '#ffffff',
-          probability: 12,
-          weight: 5
-        },
-        {
-          id: 8,
-          name: 'Yellow',
-          value: 'Yellow\'s value',
-          bgColor: '#F7F70A',
-          color: '#ffffff',
-          probability: 13,
+          color: '#000000',
+          probability: 25,
           weight: 5
         }
       ],
-      prizesImage: [
-        {
-          id: 1,
-          value: 'Blue\'s value', // Prize value
-          weight: 1 // Weights
-        },
-        {
-          id: 2,
-          value: 'Red\'s value',
-          weight: 0
-        },
-        {
-          id: 3,
-          value: 'Yellow\'s value',
-          weight: 0
-        }
-      ]
     }
   },
   computed: {
-    prizeRes (): object {
-      return this.prizesImage.filter(item => item.id === this.prizeId)[0] || {}
-    },
     wheel() :any {
       return this.$refs.wheel
     },
@@ -155,26 +99,6 @@ export default Vue.extend({
     }
   },
   methods: {
-    onRotateStart () {
-      console.log('verify', this.canvasVerify)
-      this.verify()
-    },
-    verify(){
-      if (!this.canvasVerify)
-        this.spin()
-      else {
-        const verified = true // true: test passed validation, false: test failed validation
-        this.DoServiceVerify(verified, 2000).then((verifiedRes) => {
-          if (verifiedRes) {
-            console.log('Verification passed, start spinning')
-            this.spin() //  start spinning
-            this.canvasVerify = false // Turn off verification mode
-          }
-          else
-            return false
-        })
-      }
-    },
     spin(){
       this.wheel.spin()
     },
@@ -182,8 +106,8 @@ export default Vue.extend({
       this.image.spin()
     },
     btnClicked(){
-      console.log('btn click')
-      //spin
+      console.log('button clicked')
+      //spin canvas
       this.spin()
     },
     onRotateEnd (prize: PrizeConfig) {
