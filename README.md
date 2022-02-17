@@ -15,7 +15,7 @@ npm install improved-vue-fortune-wheel
 ```
 ## Language
 
-[English (By Google Translate)](./README.md)
+[English](./README.md)
 
 ## Demo
 
@@ -28,7 +28,7 @@ https://xiaolin1995.github.io/vue-fortune-wheel/demo/
 <template>
   <div>
     <!-- type: image -->
-    <FortuneWheel
+    <fortune-wheel
       style="width: 500px"
       type="image"
       :useWeight="true"
@@ -39,10 +39,10 @@ https://xiaolin1995.github.io/vue-fortune-wheel/demo/
     >
       <img slot="wheel" src="@/assets/wheel.png" alt=""/>
       <img slot="button" src="@/assets/button.png" alt=""/>
-    </FortuneWheel>
+    </fortune-wheel>
 
     <!-- type: canvas -->
-    <FortuneWheel
+    <fortune-wheel
       style="width: 500px"
       :canvas="canvasOptions"
       :prizes="prizes"
@@ -59,86 +59,108 @@ import FortuneWheel from 'vue-fortune-wheel'
 import 'vue-fortune-wheel/lib/vue-fortune-wheel.css'
 
 export default {
+  name: 'App',
   components: {
     FortuneWheel
   },
-  data() {
+  data () {
     return {
-      cavansVerify: true, // Whether the turntable in canvas mode is enabled for verification
+      prizeId: 0,
+      canvasVerify: false,
       canvasOptions: {
+        borderColor: '#000000',
         borderWidth: 6,
-        borderColor: '#584b43'
+        lineHeight: 50,
+        textRadius: 220,
+        radius: 300,
+        btnBgColor: '#178704',
+        btnTextColor: '#ffffff',
+        btnText: 'GO',
+        btnWidth: 80,
+        btnFontSize: 32,
+        btnBorderColor: '#000000',
+        btnImageSrc: ''
       },
       prizes: [
         {
-          id: 1, //* The unique id of each prize, an integer greater than 0
-          name: 'Blue', // Prize name, display value when type is canvas (this parameter is not needed when type is image)
-          value: 'Blue\'s value', //* Prize value, return value after spinning
-          bgColor: '#45ace9', // Background color (no need for this parameter when type is image)
-          color: '#ffffff', // Font color (this parameter is not required when type is image)
-          probability: 30, //* Probability, up to 4 decimal places (the sum of the probabilities of all prizes
-          weight: 1 // Weight, if useWeight is true, the probability is calculated by weight (weight must be an integer), so probability is invalid
+          id: 1,
+          name: 'Blue',
+          value: 'Blue\'s value',
+          bgColor: '#75bcff',
+          color: '#ffffff',
+          probability: 25,
+          weight: 5
         },
         {
           id: 2,
           name: 'Red',
           value: 'Red\'s value',
-          bgColor: '#dd3832',
+          bgColor: '#F10025',
           color: '#ffffff',
-          probability: 40,
-          weight: 1
+          probability: 25,
+          weight: 5
         },
         {
           id: 3,
+          name: 'Green',
+          value: 'Green\'s value',
+          bgColor: '#4CB300',
+          color: '#ffffff',
+          probability: 25,
+          weight: 5
+        },
+        {
+          id: 4,
           name: 'Yellow',
           value: 'Yellow\'s value',
-          bgColor: '#fef151',
-          color: '#ffffff',
-          probability: 30,
-          weight: 1
+          bgColor: '#F7F70A',
+          color: '#000000',
+          probability: 25,
+          weight: 5
         }
-      ]
+      ],
+    }
+  },
+  computed: {
+    wheel() :any {
+      return this.$refs.wheel
+    },
+    image() :any {
+      return this.$refs.image
     }
   },
   methods: {
-    onImageRotateStart() {
-      console.log('onRotateStart')
+    spin(){
+      this.wheel.spin()
     },
-    onCanvasRotateStart(rotate) {
-      if (this.canvasVerify) {
-        const verified = true // true: the test passed the verification, false: the test failed the verification
-        this.DoServiceVerify(verified, 2000).then((verifiedRes) => {
-          if (verifiedRes) {
-            console.log('Verification passed, start to rotate')
-            rotate() // Call the callback, start spinning
-            this.canvasVerify = false // Turn off verification mode
-          } else {
-            alert('Failed verification')
-          }
-        })
-        return
-      }
-      console.log('onCanvasRotateStart')
+    spinImage(){
+      this.image.spin()
     },
-    onRotateEnd(prize) {
-      alert(prize.value)
+    btnClicked(){
+      console.log('button clicked')
+      //spin canvas
+      this.spin()
     },
-    // Simulate the request back-end interface, verified: whether to pass the verification, duration: delay time
-    DoServiceVerify(verified, duration) {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(verified)
-        }, duration)
-      })
-    }
+    onRotateEnd (prize: PrizeConfig) {
+      console.log(prize.value)
+    },
   }
-}
+};
 ```
+
+## FortuneWheel Functions
+
+You can access the functions inside the component by referencing the component.
+
+| Function name | Description |
+| ------ | ------ | 
+| spin | This function will start spinning canvas wheel | 
+| spinImage | This function will start spinning then image wheel |
 
 ## FortuneWheel Events
 | Event name | Description | Callback parameters |
 | ------ | ------ | ------ |
-| rotateStart | Triggered when the dial button is clicked | When `verify` is true, there will be a callback, and the callback function will be called to start spinning |
+| buttonClick | Triggered when the dial button is clicked | / |
 | rotateEnd | Triggered at the end of the turntable animation | The entire prize Object |
 
 ## FortuneWheel Attributes
@@ -152,6 +174,7 @@ export default {
 | canvas.textRadius | The distance of the text from the center of the circle (type: canvas) | Number | 190 |
 | canvas.textLength | A few characters in one line of the prize, beyond the line break (maximum two lines) | Number | 6 |
 | canvas.textDirection | Prize text direction (horizontal, vertical) | String | horizontal |
+| canvas.textFontSize | Prize text font size (px) | Number | 34 |
 | canvas.lineHeight | Text line height (type: canvas) | Number | 20 |
 | canvas.borderWidth | Round outer border (type: canvas) | Number | 0 |
 | canvas.borderColor | Color value of the outer border (type: canvas) | String | transparent |
@@ -159,9 +182,9 @@ export default {
 | canvas.btnWidth | Button width (px) | Number | 140 |
 | canvas.btnBgColor | Button background color | String | #5d119c |
 | canvas.btnTextColor | Button text color | String | #FFFFFF |
-| canvas.btnFontSize | Button font size | Number | 42 |
+| canvas.btnFontSize | Button text font size | Number | 42 |
 | canvas.btnBorderColor | Button border color | String | #FFFFFF |
-| canvas.fontSize | Prize size (px) | Number | 34 |
+| canvas.btnImageSrc | Image src to show in a button | String | '' |
 | duration | Time to complete one rotation (unit: ms) | Number | 6000 |
 | timingFun | Css time function of rotation transition | String | cubic-bezier(0.36, 0.95, 0.64, 1) |
 | angleBase | Number of rotations (angleBase * 360 is the total angle of one rotation, it can be reversed when it is a negative number) | Number | 10 |
