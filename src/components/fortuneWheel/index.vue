@@ -33,7 +33,7 @@
         @click="handleClick"
       >
         <template v-if="canvasConfig.btnImageSrc">
-          <img :src="canvasConfig.btnImageSrc" alt=""/>
+          <img :src="canvasConfig.btnImageSrc" alt="Fortune wheel button image"/>
         </template>
         <template v-else>
           {{ canvasConfig.btnText }}
