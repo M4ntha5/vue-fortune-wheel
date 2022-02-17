@@ -43,12 +43,12 @@ https://xiaolin1995.github.io/vue-fortune-wheel/demo/
 
     <!-- type: canvas -->
     <FortuneWheel
-      style="width: 500px"
+      ref="wheel"
+      :verify="canvasVerify"
       :canvas="canvasOptions"
       :prizes="prizes"
-      :verify="cavansVerify"
-      @rotateStart="onCanvasRotateStart"
       @rotateEnd="onRotateEnd"
+      @buttonClick="btnClicked"
     />
   </div>
 </template>
