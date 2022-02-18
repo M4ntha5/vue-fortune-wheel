@@ -39,16 +39,16 @@ export default Vue.extend({
       canvasOptions: {
         borderColor: '#000000',
         borderWidth: 6,
-        lineHeight: 50,
-        textRadius: 220,
-        radius: 300,
-        btnBgColor: '#178704',
+        lineHeight: 0,
+        textRadius: 400,
+        radius: 600,
+        btnBgColor: '#ffffff',
         btnTextColor: '#ffffff',
         btnText: 'GO',
         btnWidth: 80,
         btnFontSize: 32,
         btnBorderColor: '#000000',
-        btnImageSrc: ''
+        btnImageSrc: 'https://www.kika.lt/images/galleries/projects/1637323841_kika-30-94x75.png'
       },
       prizes: [
         {
@@ -58,7 +58,8 @@ export default Vue.extend({
           bgColor: '#75bcff',
           color: '#ffffff',
           probability: 25,
-          weight: 5
+          weight: 5,
+
         },
         {
           id: 2,
@@ -67,7 +68,8 @@ export default Vue.extend({
           bgColor: '#F10025',
           color: '#ffffff',
           probability: 25,
-          weight: 5
+          weight: 5,
+          imageSrc: 'https://www.kika.lt/images/galleries/projects/1637323841_kika-30-94x75.png'
         },
         {
           id: 3,
@@ -76,7 +78,9 @@ export default Vue.extend({
           bgColor: '#4CB300',
           color: '#ffffff',
           probability: 25,
-          weight: 5
+          weight: 5,
+          //imageSrc: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Windows_live_square.JPG'
+          imageSrc: 'https://www.kika.lt/images/galleries/projects/1637323841_kika-30-94x75.png'
         },
         {
           id: 4,
@@ -85,8 +89,9 @@ export default Vue.extend({
           bgColor: '#F7F70A',
           color: '#000000',
           probability: 25,
-          weight: 5
-        }
+          weight: 5,
+          imageSrc: 'https://www.kika.lt/images/galleries/projects/1637323841_kika-30-94x75.png'
+        },
       ],
     }
   },
