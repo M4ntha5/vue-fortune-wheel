@@ -80,6 +80,8 @@ interface CanvasConfig {
   btnFontSize: number;
   btnBorderColor: string;
   btnImageSrc: string;
+  prizeImageWidth: number;
+  prizeImageHeight: number;
 }
 
 const canvasDefaultConfig = {
@@ -93,11 +95,13 @@ const canvasDefaultConfig = {
   btnText: 'GO', // start button text
   btnWidth: 140, // button width
   textFontSize: 34, // Prize size
-  btnBgColor: '#5d119c',
-  btnTextColor: '#FFFFFF',
-  btnFontSize: 42,
-  btnBorderColor: '#FFFFFF',
-  btnImageSrc: ''
+  btnBgColor: '#5d119c', //button background color
+  btnTextColor: '#FFFFFF', //button text color
+  btnFontSize: 42, //button font size
+  btnBorderColor: '#FFFFFF', // button border color
+  btnImageSrc: '', // button image src
+  prizeImageWidth: 100, // width of prize images
+  prizeImageHeight: 100, // height of prize images
 }
 
 function getStrArray (str: string, len: number) {
@@ -313,24 +317,24 @@ export default Vue.extend({
       }
     },
     // Adds image as a prize
-    drawPrizeImage(ctx: CanvasRenderingContext2D, angle: number, arc: number, src: string){
-      const { radius, textRadius, textDirection } = this.canvasConfig
+    async drawPrizeImage(ctx: CanvasRenderingContext2D, angle: number, arc: number, src: string){
+      const { radius, textRadius, textDirection, prizeImageWidth, prizeImageHeight } = this.canvasConfig
       let image = new Image()
       image.src = src
 
-      let x = (radius + Math.cos(angle + arc / 2) * textRadius) - 100 * image.height / image.width / 2
-      let y = (radius + Math.sin(angle + arc / 2) * textRadius) - 100 * image.height / image.width / 2
+      let x = (radius + Math.cos(angle + arc / 2) * textRadius)
+      let y = (radius + Math.sin(angle + arc / 2) * textRadius)
 
-      let translateX = radius + Math.cos(angle + arc / 2) * textRadius
-      let translateY = radius + Math.sin(angle + arc / 2) * textRadius
-
-      ctx.translate(translateX, translateY)
+      ctx.translate(x, y)
       textDirection === 'vertical'
         ? ctx.rotate(angle + arc / 2 + Math.PI)
         : ctx.rotate(angle + arc / 2 + Math.PI / 2)
-      ctx.translate(-translateX, -translateY)
+      ctx.translate(-x, -y)
 
-      ctx.drawImage(image, x, y, 100, 100 * image.height / image.width)
+      let xAfterScaling = x - prizeImageWidth / 2
+      let yAfterScaling = y - prizeImageHeight / 2
+
+      ctx.drawImage(image, xAfterScaling, yAfterScaling, prizeImageWidth, prizeImageHeight)
     },
 
     // Draw prize text

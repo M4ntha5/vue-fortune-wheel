@@ -59,7 +59,7 @@ export default Vue.extend({
           color: '#ffffff',
           probability: 25,
           weight: 5,
-
+          imageSrc: 'https://www.kika.lt/images/galleries/projects/1637323841_kika-30-94x75.png'
         },
         {
           id: 2,
@@ -79,8 +79,7 @@ export default Vue.extend({
           color: '#ffffff',
           probability: 25,
           weight: 5,
-          //imageSrc: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Windows_live_square.JPG'
-          imageSrc: 'https://www.kika.lt/images/galleries/projects/1637323841_kika-30-94x75.png'
+          imageSrc: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Windows_live_square.JPG'
         },
         {
           id: 4,
