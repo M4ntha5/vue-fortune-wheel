@@ -184,6 +184,8 @@ You can access the functions inside the component by referencing the component.
 | canvas.btnFontSize | Button text font size | Number | 42 |
 | canvas.btnBorderColor | Button border color | String | #FFFFFF |
 | canvas.btnImageSrc | Image src to show in a button | String | '' |
+| canvas.prizeImageHeight | Height of prize images | Number | 100 |
+| canvas.prizeImageWidth | Width of prize images | Number | 100 |
 | duration | Time to complete one rotation (unit: ms) | Number | 6000 |
 | timingFun | Css time function of rotation transition | String | cubic-bezier(0.36, 0.95, 0.64, 1) |
 | angleBase | Number of rotations (angleBase * 360 is the total angle of one rotation, it can be reversed when it is a negative number) | Number | 10 |
