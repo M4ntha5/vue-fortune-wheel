@@ -68,7 +68,7 @@ export default Vue.extend({
           id: 2,
           name: 'Red',
           value: 'Red\'s value',
-          bgColor: '#F10025',
+          bgColor: '#cbd014',
           color: '#ffffff',
           probability: 25,
           weight: 5,
@@ -78,7 +78,7 @@ export default Vue.extend({
           id: 3,
           name: 'Green',
           value: 'Green\'s value',
-          bgColor: '#4CB300',
+          bgColor: '#cbd014',
           color: '#ffffff',
           probability: 25,
           weight: 5,
@@ -115,8 +115,8 @@ export default Vue.extend({
     btnClicked(){
       console.log('button clicked')
       //spin canvas
-      //this.spin()
-      this.$refs.wheel?.spin()
+      this.spin()
+      //this.$refs.wheel?.spin()
     },
     onRotateEnd (prize: PrizeConfig) {
       console.log(prize.value)

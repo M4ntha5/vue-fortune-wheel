@@ -300,7 +300,11 @@ export default Vue.extend({
           ctx.save()
           // ----draw prizes start----
           ctx.fillStyle = row.color
-
+          //draw separator lines
+          if(this.prizes.length > 1){
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
           //if image src exists add image as a prize
           //else add text as a prize
           if(row.imageSrc && row.imageSrc.length > 0)
