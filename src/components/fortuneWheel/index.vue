@@ -304,7 +304,8 @@ export default Vue.extend({
           //if image src exists add image as a prize
           //else add text as a prize
           if(row.imageSrc && row.imageSrc.length > 0)
-            this.drawPrizeImage(ctx, angle, arc, row.imageSrc)
+            this.loadAndDrawImages(row.imageSrc, ctx, angle, arc)
+            //this.drawPrizeImage(ctx, angle, arc, row.imageSrc)
           else {
             // translate method to remap the (0, 0) position on the canvas
             ctx.translate(radius + Math.cos(angle + arc / 2) * textRadius, radius + Math.sin(angle + arc / 2) * textRadius)
@@ -316,8 +317,33 @@ export default Vue.extend({
         })
       }
     },
+    loadAndDrawImages(src: string, ctx: CanvasRenderingContext2D, angle: number, arc: number) {
+      return new Promise((resolve) => {
+        const image = document.createElement('img');
+        image.crossOrigin = 'Anonymous'; // To avoid tainted canvas
+        image.src = src;
+        image.hidden = true
+        image.onload = () => resolve(image);
+
+        const { radius, textRadius, textDirection, prizeImageWidth, prizeImageHeight } = this.canvasConfig
+        let x = (radius + Math.cos(angle + arc / 2) * textRadius)
+        let y = (radius + Math.sin(angle + arc / 2) * textRadius)
+
+        ctx.translate(x, y)
+        textDirection === 'vertical'
+          ? ctx.rotate(angle + arc / 2 + Math.PI)
+          : ctx.rotate(angle + arc / 2 + Math.PI / 2)
+        ctx.translate(-x, -y)
+
+        let xAfterScaling = x - prizeImageWidth / 2
+        let yAfterScaling = y - prizeImageHeight / 2
+
+        ctx.drawImage(image, xAfterScaling, yAfterScaling, prizeImageWidth, prizeImageHeight)
+        document.body.appendChild(image);
+      });
+    },
     // Adds image as a prize
-    async drawPrizeImage(ctx: CanvasRenderingContext2D, angle: number, arc: number, src: string){
+    /*async drawPrizeImage(ctx: CanvasRenderingContext2D, angle: number, arc: number, src: string){
       const { radius, textRadius, textDirection, prizeImageWidth, prizeImageHeight } = this.canvasConfig
       let image = new Image()
       image.src = src
@@ -335,7 +361,7 @@ export default Vue.extend({
       let yAfterScaling = y - prizeImageHeight / 2
 
       ctx.drawImage(image, xAfterScaling, yAfterScaling, prizeImageWidth, prizeImageHeight)
-    },
+    },*/
 
     // Draw prize text
     drawPrizeText (ctx: CanvasRenderingContext2D, angle: number, arc: number, name: string) {

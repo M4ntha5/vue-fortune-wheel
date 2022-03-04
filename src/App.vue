@@ -1,8 +1,10 @@
 <template>
   <div id="app">
     <fortune-wheel
+      :key="componentKey"
       ref="wheel"
       :verify="canvasVerify"
+      :use-weight="true"
       :canvas="canvasOptions"
       :prizes="prizes"
       @rotateEnd="onRotateEnd"
@@ -34,21 +36,22 @@ export default Vue.extend({
   },
   data () {
     return {
+      componentKey: 5,
       prizeId: 0,
       canvasVerify: false,
       canvasOptions: {
         borderColor: '#000000',
         borderWidth: 6,
         lineHeight: 0,
-        textRadius: 400,
-        radius: 600,
+        textRadius: 200,
+        radius: 300,
         btnBgColor: '#ffffff',
         btnTextColor: '#ffffff',
         btnText: 'GO',
         btnWidth: 80,
         btnFontSize: 32,
         btnBorderColor: '#000000',
-        btnImageSrc: 'https://www.kika.lt/images/galleries/projects/1637323841_kika-30-94x75.png'
+        btnImageSrc: 'https://www.kika.lt/images/galleries/projects/1646122976_kika-logotipas-ukraine.png'
       },
       prizes: [
         {
@@ -59,7 +62,7 @@ export default Vue.extend({
           color: '#ffffff',
           probability: 25,
           weight: 5,
-          imageSrc: 'https://www.kika.lt/images/galleries/projects/1637323841_kika-30-94x75.png'
+          imageSrc: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Windows_live_square.JPG'
         },
         {
           id: 2,
@@ -69,7 +72,7 @@ export default Vue.extend({
           color: '#ffffff',
           probability: 25,
           weight: 5,
-          imageSrc: 'https://www.kika.lt/images/galleries/projects/1637323841_kika-30-94x75.png'
+          imageSrc: 'https://media.istockphoto.com/photos/picturesque-morning-in-plitvice-national-park-colorful-spring-scene-picture-id1093110112?k=20&m=1093110112&s=612x612&w=0&h=3OhKOpvzOSJgwThQmGhshfOnZTvMExZX2R91jNNStBY='
         },
         {
           id: 3,
@@ -89,7 +92,7 @@ export default Vue.extend({
           color: '#000000',
           probability: 25,
           weight: 5,
-          imageSrc: 'https://www.kika.lt/images/galleries/projects/1637323841_kika-30-94x75.png'
+          imageSrc: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Windows_live_square.JPG'
         },
       ],
     }
@@ -112,10 +115,25 @@ export default Vue.extend({
     btnClicked(){
       console.log('button clicked')
       //spin canvas
-      this.spin()
+      //this.spin()
+      this.$refs.wheel?.spin()
     },
     onRotateEnd (prize: PrizeConfig) {
       console.log(prize.value)
+
+      const ind = this.prizes.indexOf(prize)
+      this.prizes.splice(ind, 1)
+
+      //reloads component
+      this.componentKey = this.getNewRandomKey()
+    },
+    getNewRandomKey(){
+      //to force update wheel component
+      let newVal = this.componentKey
+      let oldVal = this.componentKey
+      while(oldVal === newVal)
+        newVal = Math.floor(Math.random() * 100)
+      return newVal
     },
     DoServiceVerify (verified: boolean, duration: number) {
       // Parameter 1: whether to pass the verification, 2: delay time
