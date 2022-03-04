@@ -323,13 +323,16 @@ export default Vue.extend({
     },
     loadAndDrawImages(src: string, ctx: CanvasRenderingContext2D, angle: number, arc: number) {
       return new Promise((resolve) => {
+        const { radius, textRadius, textDirection, prizeImageWidth, prizeImageHeight } = this.canvasConfig
         const image = document.createElement('img');
-        image.crossOrigin = 'Anonymous'; // To avoid tainted canvas
+        //image.crossOrigin = 'Anonymous'; // To avoid tainted canvas
         image.src = src;
+        image.width = prizeImageWidth
+        image.height = prizeImageHeight
         image.hidden = true
         image.onload = () => resolve(image);
+        //todo check if better like this
 
-        const { radius, textRadius, textDirection, prizeImageWidth, prizeImageHeight } = this.canvasConfig
         let x = (radius + Math.cos(angle + arc / 2) * textRadius)
         let y = (radius + Math.sin(angle + arc / 2) * textRadius)
 
